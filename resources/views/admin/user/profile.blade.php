@@ -9,10 +9,9 @@
 
                 @if (session('status'))
                 <div class="alert alert-success">{{ session('status') }}</div>
-
                 @endif
 
-                <form action="{{ route('user.info.update') }}" class="form-sample" method="POST">
+                <form method="POST" action="{{ route('user.info.update') }}" class="form-sample" >
                     @csrf
                     <div class="fomr-group">
                         <label for="exampleInputName">User Name</label>
@@ -32,23 +31,39 @@
     <div class="col-lg-4">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title"> Profile Info</h6>
-
-                <form action="{{ route('user.info.update') }}" class="form-sample" method="POST">
+                <h6 class="card-title"> Password Update</h6>
+                @if (session('success'))
+                    <div class="alert alert-success">{{session('success')  }}</div>
+                @endif
+                <form method="POST" action="{{ route('password_update') }}" class="form-sample" >
                     @csrf
                     <div class="fomr-group">
                         <label for="exampleInputName">Current Password</label>
                         <input type="password" class="form-control" name="current_password">
+                        @error('current_password')
+                         <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
                     </div>
 
                     <div class="fomr-group">
                         <label for="exampleInputName">New Password</label>
                         <input type="password" class="form-control" name="password">
+                        @error('password')
+                         <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                        @if (session('invalid'))
+                        <div class="alert alert-danger">{{ session('invalid') }}</div>
+
+                        @endif
                     </div>
 
                     <div class="fomr-group">
                         <label for="exampleInputName">Confirm Password</label>
                         <input type="password" class="form-control" name="password_confirmation">
+                        @error('password_confirmation')
+                        <strong class="text-danger">{{ $message }}</strong>
+
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Update</button>
                 </form>
