@@ -20,6 +20,8 @@
 	<link rel="stylesheet" href="{{ asset('backend') }}/assets/css/demo_1/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="{{ asset('backend') }}/assets/images/favicon.png" />
+  {{-- fontawesome link --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 	<div class="main-wrapper">
@@ -49,19 +51,13 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
               <i class="link-icon" data-feather="mail"></i>
-              <span class="link-title">Email</span>
+              <span class="link-title">User</span>
               <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
             <div class="collapse" id="emails">
               <ul class="nav sub-menu">
                 <li class="nav-item">
-                  <a href="pages/email/inbox.html" class="nav-link">Inbox</a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/email/read.html" class="nav-link">Read</a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/email/compose.html" class="nav-link">Compose</a>
+                  <a href="{{ route('userlist') }}" class="nav-link">UserList</a>
                 </li>
               </ul>
             </div>
@@ -493,12 +489,21 @@
 						</li>
 						<li class="nav-item dropdown nav-profile">
 							<a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<img src="https://via.placeholder.com/30x30" alt="profile">
+                                @if(Auth::user()->photo == null)
+                                    <img src="#" alt="">
+                                @else
+                                    <img src="{{ asset('uploads/user')}}/{{ Auth::user()->photo }}" alt="profile">
+                                @endif
 							</a>
 							<div class="dropdown-menu" aria-labelledby="profileDropdown">
 								<div class="dropdown-header d-flex flex-column align-items-center">
 									<div class="mb-3 figure">
-										<img src="https://via.placeholder.com/80x80" alt="">
+                                        @if(Auth::user()->photo == null)
+                                         <img src="#" alt="">
+                                        @else
+                                            <img src="{{ asset('uploads/user') }}/{{ Auth::user()->photo }}"alt="">
+                                        @endif
+
 									</div>
 									<div class="text-center info">
 										<p class="mb-0 name font-weight-bold">{{ Auth::user()->name }}</p>

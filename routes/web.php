@@ -17,11 +17,12 @@ Route::middleware('auth')->group(function () {
 
 });
 
+
+require __DIR__.'/auth.php';
+
  //user
  Route::get('/user/update',[UserController::class,'user_update'])->name('user.update');
  Route::post('/user/info/update',[UserController::class,'user_info_update'])->name('user.info.update');
- Route::POST('password/update', [UserController::class,'password_update'])->name('password_update');
-
-
-
-require __DIR__.'/auth.php';
+ Route::post('password/update', [UserController::class,'password_update'])->name('password_update');
+ Route::post('/photo/update',[UserController::class,'photo_update'])->name('photo.update');
+ Route::get('/userlist',[HomeController::class,'user_list'])->name('userlist');

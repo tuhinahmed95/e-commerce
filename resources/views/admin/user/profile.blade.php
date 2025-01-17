@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-
+    {{-- passwor section --}}
     <div class="col-lg-4">
         <div class="card">
             <div class="card-body">
@@ -70,5 +70,33 @@
             </div>
         </div>
     </div>
+
+    {{-- image section --}}
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title"> Update Photo</h6>
+                @if (session('photo'))
+                    <div class="alert alert-success">{{session('photo')  }}</div>
+                @endif
+                <form method="POST" action="{{ route('photo.update') }}" class="form-sample" enctype="multipart/form-data">
+                    @csrf
+                    <div class="fomr-group">
+                        <label for="exampleInputName">Upload Photo</label>
+                        <input type="file" class="form-control" name="photo">
+                        @error('photo')
+                            <strong class="text-danger">{{ $message }}</strong>
+                        @enderror
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary mt-2">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 @endsection
