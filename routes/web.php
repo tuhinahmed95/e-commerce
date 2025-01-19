@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -25,4 +26,20 @@ require __DIR__.'/auth.php';
  Route::post('/user/info/update',[UserController::class,'user_info_update'])->name('user.info.update');
  Route::post('password/update', [UserController::class,'password_update'])->name('password_update');
  Route::post('/photo/update',[UserController::class,'photo_update'])->name('photo.update');
- Route::get('/userlist',[HomeController::class,'user_list'])->name('userlist');
+
+//user-profile
+ Route::post('user/add',[HomeController::class,'user_ad'])->name('user.add');
+ Route::get('/user/list',[HomeController::class,'user_list'])->name('userlist');
+ Route::get('/user/delete/{id}',[HomeController::class,'user_delete'])->name('user.delete');
+
+Route::middleware('auth')->group(function () {
+
+    //  category
+    Route::get('/category/create',[CategoryController::class,'category_create'])->name('category.create');
+    Route::post('category/store',[CategoryController::class,'category_store'])->name('category.store');
+    Route::get('/category/list',[CategoryController::class,'category_list'])->name('category.list');
+    Route::get('/category/update',[CategoryController::class,'category_update'])->name('category.edit');
+
+
+
+});
