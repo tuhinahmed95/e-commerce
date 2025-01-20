@@ -39,6 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::post('category/store',[CategoryController::class,'category_store'])->name('category.store');
     Route::get('/category/list',[CategoryController::class,'category_list'])->name('category.list');
     Route::get('/category/update',[CategoryController::class,'category_update'])->name('category.edit');
+    Route::get('/category/soft/delete/{id}',[CategoryController::class,'category_soft_delete'])->name('category.soft.delete');
+    Route::get('/category/trash',[CategoryController::class,'category_trash'])->name('category.trash');
+    Route::get('/category/restore/{id}',[CategoryController::class,'category_restore'])->name('category.restore');
+    Route::get('/category/permanent/delete/{id}',[CategoryController::class,'category_permanent_delete'])->name('category.permanent.delete');
+    Route::get('/category/edit/{id}',[CategoryController::class,'category_edit'])->name('category.edit');
+    Route::post('/category/update/{id}',[CategoryController::class,'category_update'])->name('category.update');
+    Route::post('/checked/delete',[CategoryController::class,'checked_delete'])->name('checked.delete');
+    Route::post('/checked/restore',[CategoryController::class,'checked_restore'])->name('checked.restore');
 
 
 

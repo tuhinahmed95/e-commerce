@@ -73,8 +73,11 @@
             <div class="collapse" id="uiComponents">
               <ul class="nav sub-menu">
                 <li class="nav-item">
-                  <a href="{{ route('category.list') }}" class="nav-link">Add Category</a>
+                  <a href="{{ route('category.list') }}" class="nav-link">Category List</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('category.trash') }}" class="nav-link">Trash Category</a>
+                  </li>
               </ul>
             </div>
           </li>
@@ -502,5 +505,7 @@
   <script src="{{ asset('backend') }}/assets/js/dashboard.js"></script>
   <script src="{{ asset('backend') }}/assets/js/datepicker.js"></script>
 	<!-- end custom js for this page -->
+
+    @yield('footer_script')
 </body>
 </html>
