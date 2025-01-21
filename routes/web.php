@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,7 +48,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/category/update/{id}',[CategoryController::class,'category_update'])->name('category.update');
     Route::post('/checked/delete',[CategoryController::class,'checked_delete'])->name('checked.delete');
     Route::post('/checked/restore',[CategoryController::class,'checked_restore'])->name('checked.restore');
-
-
-
 });
+
+//subcategory
+Route::get('/subcategory/create',[SubcategoryController::class,'sub_create'])->name('sub.create.category');
+Route::get('/subcategory/list',[SubcategoryController::class,'subcategory_list'])->name('sub.list.category');
+Route::post('/subcategory/store',[SubcategoryController::class,'subcategory_store'])->name('sub.store.category');

@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function category_store(Request $request){
         $request->validate([
-            'category_name'=>'required',
+            'category_name'=>'required|unique:categories',
             'icon'=>'required',
             'icon'=>'image',
         ]);
