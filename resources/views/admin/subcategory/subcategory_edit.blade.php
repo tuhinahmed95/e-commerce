@@ -6,6 +6,7 @@
             <div class="card-header">
                 <h3>Add New Subcategory</h3>
             </div>
+            
             <div class="card-body">
                 <form action="{{ route('sub.category.update',$subcategory->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -27,6 +28,7 @@
                         @error('sub_category')
                             <strong class="text-danger">{{ $message }}</strong>
                         @enderror
+
                     </div>
 
                     <div class="mb-3">

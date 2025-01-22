@@ -59,27 +59,47 @@ class SubcategoryController extends Controller
                 'sub_category'=>'required',
                 'sub_image'=>'nullable'
             ]);
+
             $subcategorie = Subcategory::find($id);
+         if($request->hasFile('sub_image')) {
+            $oldImagePath = str_replace('uploads/category', '', $subcategorie->sub_image);
 
-            if ($request->hasFile('sub_image')) {
-                $oldImagePath = str_replace('uploads/category', '', $subcategorie->sub_image);
-
-                if (file_exists(public_path($oldImagePath)) && $subcategorie->sub_image) {
-                    unlink(public_path($oldImagePath));
-                }
-
-                $image = $request->file('sub_image');
-                $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('uploads/category'), $imageName);
-
-                $subcategorie->sub_image = 'uploads/category/' . $imageName;
+            if (file_exists(public_path($oldImagePath)) && $subcategorie->sub_image) {
+                unlink(public_path($oldImagePath));
             }
-            $subcategorie->update([
-                'category_id' => $request->category,
-                'sub_category' => $request->sub_category,
-                'sub_image' => $subcategorie,  
-            ]);
-            return redirect()->route('sub.category.list');
+
+            $image = $request->file('sub_image');
+            $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/category'), $imageName);
+
+            $subcategorie->sub_image = 'uploads/category/' . $imageName;
+        }
+
+        $subcategorie->update([
+            'category_id' => $request->category,
+            'subcategory_name' => $request->sub_category,
+            'sub_image' => $subcategorie->sub_image,
+        ]);
+
+        return redirect()->route('sub.category.list');
 
     }
+
+    public function subcategory_delete($id)
+    {
+        $subcategorie = Subcategory::find($id);
+
+        if ($subcategorie && $subcategorie->sub_image) {
+            $oldImagePath = str_replace('uploads/category', '', $subcategorie->sub_image);
+
+            if (file_exists(public_path('uploads/category/' . $oldImagePath))) {
+                unlink(public_path('uploads/category/' . $oldImagePath));
+            }
+        }
+
+        $subcategorie->delete();
+
+        return redirect()->route('sub.category.list')->with('success','Subcategory Deleted Successfully');
+    }
+
 }

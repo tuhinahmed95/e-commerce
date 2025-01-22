@@ -29,7 +29,7 @@
                      <td>
                         <a href="{{ route('sub.category.edit',$subcategory->id) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
 
-                        <a href="" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                        <a  class="btn btn-danger del_btn" data-link="{{ route('sub.category.delete',$subcategory->id) }}"><i class="fa fa-trash"></i></a>
                     </td>
                    </tr>
 
@@ -39,4 +39,35 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer_script')
+<script>
+    $('.del_btn').click(function(){
+    var link = $(this).attr('data-link');
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = link;
+        }
+      });
+})
+
+</script>
+@if (session('success'))
+    <script>
+            Swal.fire(
+            "Deleted!",
+            '{{ session('success') }}',
+            "success"
+            );
+    </script>
+@endif
 @endsection
