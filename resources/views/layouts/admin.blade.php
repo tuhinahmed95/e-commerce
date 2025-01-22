@@ -76,7 +76,7 @@
                   <a href="{{ route('category.list') }}" class="nav-link">Category List</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('sub.list.category') }}" class="nav-link">Add Subcategory</a>
+                    <a href="{{ route('sub.category.list') }}" class="nav-link">Add Subcategory</a>
                   </li>
                 <li class="nav-item">
                     <a href="{{ route('category.trash') }}" class="nav-link">Trash Category</a>
