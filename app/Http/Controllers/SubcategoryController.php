@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Subcategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class SubcategoryController extends Controller
@@ -58,29 +59,27 @@ class SubcategoryController extends Controller
                 'sub_category'=>'required',
                 'sub_image'=>'nullable'
             ]);
-            if ($request->hasFile('sub_image')) {
-                $image = $request->file('sub_image');
-                $oldImagePath = str_replace('uploads/category', '',$image);
+            $subcategorie = Subcategory::find($id);
 
-                // পুরানো ইমেজটি মুছে ফেলা (যদি থাকে)
-                if (file_exists(public_path($oldImagePath))) {
+            if ($request->hasFile('sub_image')) {
+                $oldImagePath = str_replace('uploads/category', '', $subcategorie->sub_image);
+
+                if (file_exists(public_path($oldImagePath)) && $subcategorie->sub_image) {
                     unlink(public_path($oldImagePath));
                 }
 
-                // নতুন ইমেজ ফাইল আপলোড করা
                 $image = $request->file('sub_image');
                 $imageName = time() . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('uploads/category'), $imageName);
 
-                // নতুন ইমেজের পাথ ডাটাবেসে সংরক্ষণ করা
-                $image->sub_image = 'uploads/category/' . $imageName;
+                $subcategorie->sub_image = 'uploads/category/' . $imageName;
             }
-            $subcategorie = Subcategory::find($id);
             $subcategorie->update([
                 'category_id' => $request->category,
                 'sub_category' => $request->sub_category,
-                'sub_image' => $imageName,  // আপডেট করা ইমেজ পাথ সংরক্ষণ করা
+                'sub_image' => $subcategorie,  
             ]);
+            return redirect()->route('sub.category.list');
 
     }
 }
