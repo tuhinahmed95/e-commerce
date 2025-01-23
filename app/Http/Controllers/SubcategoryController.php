@@ -99,7 +99,7 @@ class SubcategoryController extends Controller
 
         $subcategorie->delete();
 
-        return redirect()->route('sub.category.list')->with('success','Subcategory Deleted Successfully');
+        return redirect()->route('sub.category.list')->with('success','Subcategory Deleted !');
     }
 
 }

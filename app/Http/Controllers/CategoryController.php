@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class CategoryController extends Controller
         unlink($cat_image);
         $category = Category::onlyTrashed()->find($id);
         $category->forceDelete();
+        Subcategory::where('category_id',$id)->delete();
         return back()->with('permanentDelete','Category Permanent Deleted Successfully');
     }
 

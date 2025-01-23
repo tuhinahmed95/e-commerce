@@ -6,6 +6,9 @@
             <div class="card-header">
                 <h3>Add New Subcategory</h3>
             </div>
+            @if (session('exist'))
+                <div class="alert alert-success">{{ session('exist') }}</div>
+            @endif
             <div class="card-body">
                 <form action="{{ route('sub.category.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
