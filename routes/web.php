@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
@@ -56,6 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/subcategory/edit/{id}',[SubcategoryController::class,'subcategory_edit'])->name('sub.category.edit');
     Route::post('/subcategory/update/{id}',[SubcategoryController::class,'subcategory_update'])->name('sub.category.update');
     Route::get('/subcategory/delete/{id}',[SubcategoryController::class,'subcategory_delete'])->name('sub.category.delete');
+
+    // Product
+    Route::get('/product/list',[ProductController::class,'product_list'])->name('product.list');
+    Route::get('/product/create',[ProductController::class,'product_create'])->name('prduct.create');
+    Route::post('/product/store',[ProductController::class,'product_store'])->name('prduct.store');
 });
 
 

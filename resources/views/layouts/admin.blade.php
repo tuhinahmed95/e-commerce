@@ -12,6 +12,13 @@
   <!-- plugin css for this page -->
   <link rel="stylesheet" href="{{ asset('backend') }}/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
 	<!-- end plugin css for this page -->
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+    integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 	<!-- inject:css -->
 	<link rel="stylesheet" href="{{ asset('backend') }}/assets/fonts/feather-font/css/iconfont.css">
 	<link rel="stylesheet" href="{{ asset('backend') }}/assets/vendors/flag-icon-css/css/flag-icon.min.css">
@@ -76,7 +83,7 @@
                   <a href="{{ route('category.list') }}" class="nav-link">Category List</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('sub.category.list') }}" class="nav-link">Add Subcategory</a>
+                    <a href="{{ route('sub.category.list') }}" class="nav-link">Subcategory List</a>
                   </li>
                 <li class="nav-item">
                     <a href="{{ route('category.trash') }}" class="nav-link">Trash Category</a>
@@ -87,13 +94,13 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#advancedUI" role="button" aria-expanded="false" aria-controls="advancedUI">
               <i class="link-icon" data-feather="anchor"></i>
-              <span class="link-title">Advanced UI</span>
+              <span class="link-title">Products</span>
               <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
             <div class="collapse" id="advancedUI">
               <ul class="nav sub-menu">
                 <li class="nav-item">
-                  <a href="pages/advanced-ui/cropper.html" class="nav-link">Cropper</a>
+                  <a href="{{ route('product.list') }}" class="nav-link">Product List</a>
                 </li>
                 <li class="nav-item">
                     <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Owl carousel</a>
@@ -504,6 +511,11 @@
 	<script src="{{ asset('backend') }}/assets/vendors/feather-icons/feather.min.js"></script>
 	<script src="{{ asset('backend') }}/assets/js/template.js"></script>
 	<!-- endinject -->
+    <scriptsrc= src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></scriptsrc=>
   <!-- custom js for this page -->
   <script src="{{ asset('backend') }}/assets/js/dashboard.js"></script>
   <script src="{{ asset('backend') }}/assets/js/datepicker.js"></script>
