@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
@@ -61,7 +62,16 @@ Route::middleware('auth')->group(function () {
     // Product
     Route::get('/product/list',[ProductController::class,'product_list'])->name('product.list');
     Route::get('/product/create',[ProductController::class,'product_create'])->name('prduct.create');
-    Route::post('/product/store',[ProductController::class,'product_store'])->name('prduct.store');
+    // Route::post('/product/store',[ProductController::class,'product_store'])->name('prduct.store');
+    Route::post('/getSubcategory',[ProductController::class,'getsubcategory']);
+
+    // Brand
+    Route::get('/brand/create',[BrandController::class,'brand_create'])->name('brand.create');
+    Route::get('/brand/list',[BrandController::class,'brand_list'])->name('brand.list');
+    Route::post('/brand/store',[BrandController::class,'brand_store'])->name('brand.store');
+    Route::get('/brand/edit/{id}',[BrandController::class,'brand_edit'])->name('brand.edit');
+    Route::post('/brand/update/{id}',[BrandController::class,'brand_update'])->name('brand.update');
+    Route::get('/brand/delete/{id}',[BrandController::class,'brand_delete'])->name('brand.delete');
 });
 
 

@@ -7,25 +7,29 @@
                     <h3>Product Create</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('prduct.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="category" class="form-label">Category</label>
-                                    <select name="category_id" class="form-control">
-                                        <option value="">Select Category</option>
-                                        <option value="">Select Category</option>
-                                    </select>
+                                        <select name="category_id" class="form-control category">
+                                            <option value="">Select Category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->category_name }}</option>
+                                            @endforeach
+                                        </select>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Sub Category</label>
-                                    <select name="category_id" class="form-control">
+                                    <select name="subcategory_id" class="form-control subcategory">
                                         <option value="">Select Subcategory</option>
-                                        <option value="">Select</option>
+                                        @foreach ($subcategories as $subcategory)
+                                        <option value="{{$subcategory->id  }}">{{ $subcategory->subcategory_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -35,7 +39,9 @@
                                     <label for="" class="form-label">Brand</label>
                                     <select name="brand_id" class="form-control">
                                         <option value="">Select Brand</option>
-                                        <option value="">Select</option>
+                                        @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -71,7 +77,7 @@
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Tags</label>
-                                    <input type="text" name="tags[]" id="input-tags" class="form-control">
+                                    <input type="text" name="tags[]" id="input-tags">
                                 </div>
                             </div>
 
@@ -127,5 +133,25 @@
                 };
             },
         });
+    </script>
+    <script>
+        $('.category').change(function(){
+            var category_id = $(this).val();
+
+            $.ajaxSetup({
+                headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+            });
+
+            $.ajax({
+                url:'/getSubcategory',
+                type:'POST',
+                data:{'category_id':category_id},
+                success: function (data){
+                    $('.subcategory').html(data);
+                }
+            });
+        })
     </script>
 @endsection

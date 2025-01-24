@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>NobleUI Responsive Bootstrap 4 Dashboard Template</title>
@@ -103,7 +104,7 @@
                   <a href="{{ route('product.list') }}" class="nav-link">Product List</a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/advanced-ui/owl-carousel.html" class="nav-link">Owl carousel</a>
+                    <a href="{{ route('brand.list') }}" class="nav-link">Brand List</a>
                   </li>
                 <li class="nav-item">
                   <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">Sweet Alert</a>
@@ -511,11 +512,11 @@
 	<script src="{{ asset('backend') }}/assets/vendors/feather-icons/feather.min.js"></script>
 	<script src="{{ asset('backend') }}/assets/js/template.js"></script>
 	<!-- endinject -->
-    <scriptsrc= src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
   integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
-></scriptsrc=>
+></script>
   <!-- custom js for this page -->
   <script src="{{ asset('backend') }}/assets/js/dashboard.js"></script>
   <script src="{{ asset('backend') }}/assets/js/datepicker.js"></script>
