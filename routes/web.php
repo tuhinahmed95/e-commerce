@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FronendController::class,'welcome']);
@@ -62,8 +63,11 @@ Route::middleware('auth')->group(function () {
     // Product
     Route::get('/product/list',[ProductController::class,'product_list'])->name('product.list');
     Route::get('/product/create',[ProductController::class,'product_create'])->name('prduct.create');
-    // Route::post('/product/store',[ProductController::class,'product_store'])->name('prduct.store');
+    Route::post('/product/store',[ProductController::class,'product_store'])->name('prduct.store');
+    Route::get('/product/edit/{id}',[ProductController::class,'product_edit'])->name('product.eidt');
+    Route::post('/product/update/{id}',[ProductController::class,'product_update'])->name('product.update');
     Route::post('/getSubcategory',[ProductController::class,'getsubcategory']);
+    Route::post('/getStatus',[ProductController::class,'getStatus']);
 
     // Brand
     Route::get('/brand/create',[BrandController::class,'brand_create'])->name('brand.create');
@@ -72,6 +76,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/brand/edit/{id}',[BrandController::class,'brand_edit'])->name('brand.edit');
     Route::post('/brand/update/{id}',[BrandController::class,'brand_update'])->name('brand.update');
     Route::get('/brand/delete/{id}',[BrandController::class,'brand_delete'])->name('brand.delete');
+
+    // Variation
+    Route::get('/variation',[VariationController::class,'variation'])->name('variation');
+    Route::post('/variation/store',[VariationController::class,'variation_store'])->name('variation.store');
+    Route::get('/variation/delete/{id}',[VariationController::class,'variation_delete'])->name('variation.delete');
+
+    Route::post('/size/stor',[VariationController::class,'size_store'])->name('size.store');
+    Route::get('/size/delete/{id}',[VariationController::class,'size_delete'])->name('size.delete');
 });
 
 

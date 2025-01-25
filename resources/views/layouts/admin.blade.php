@@ -10,9 +10,11 @@
 	<!-- core:css -->
 	<link rel="stylesheet" href="{{ asset('backend') }}/assets/vendors/core/core.css">
 	<!-- endinject -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
   <!-- plugin css for this page -->
   <link rel="stylesheet" href="{{ asset('backend') }}/assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
 	<!-- end plugin css for this page -->
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
@@ -30,6 +32,78 @@
   <link rel="shortcut icon" href="{{ asset('backend') }}/assets/images/favicon.png" />
   {{-- fontawesome link --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+.upload__box {
+  padding: 0;
+}
+.upload__inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.upload__btn {
+    display: block;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    min-width: 116px;
+    padding: 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid;
+    background-color: transparent;
+    border-color: #f2f2f2;
+    font-size: 14px;
+    color: #000;
+}
+.upload__btn:hover {
+  background-color: unset;
+  color: #4045ba;
+  transition: all 0.3s ease;
+}
+.upload__btn-box {
+  margin-bottom: 10px;
+}
+.upload__img-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+.upload__img-box {
+  width: 150px;
+  padding: 0 10px;
+  margin-bottom: 12px;
+}
+.upload__img-close {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  text-align: center;
+  line-height: 24px;
+  z-index: 1;
+  cursor: pointer;
+}
+.upload__img-close:after {
+  content: "✖";
+  font-size: 14px;
+  color: white;
+}
+
+.img-bg {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  padding-bottom: 100%;
+}
+</style>
 </head>
 <body>
 	<div class="main-wrapper">
@@ -107,7 +181,7 @@
                     <a href="{{ route('brand.list') }}" class="nav-link">Brand List</a>
                   </li>
                 <li class="nav-item">
-                  <a href="pages/advanced-ui/sweet-alert.html" class="nav-link">Sweet Alert</a>
+                  <a href="{{ route('variation') }}" class="nav-link">Variation</a>
                 </li>
               </ul>
             </div>
@@ -508,6 +582,8 @@
   <script src="{{ asset('backend') }}/assets/vendors/apexcharts/apexcharts.min.js"></script>
   <script src="{{ asset('backend') }}/assets/vendors/progressbar.js/progressbar.min.js"></script>
 	<!-- end plugin js for this page -->
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 	<!-- inject:js -->
 	<script src="{{ asset('backend') }}/assets/vendors/feather-icons/feather.min.js"></script>
 	<script src="{{ asset('backend') }}/assets/js/template.js"></script>

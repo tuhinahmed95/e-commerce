@@ -7,7 +7,7 @@
                     <h3>Product Create</h3>
                 </div>
                 <div class="card-body">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('prduct.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">
@@ -84,28 +84,37 @@
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Long Description</label>
-                                    <textarea name="long_des" class="form-control" cols="30" rows="10"></textarea>
+                                    <textarea id="summernote" name="long_des" class="form-control" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Additional Information</label>
-                                    <textarea name="addi_info" class="form-control" cols="30" rows="10"></textarea>
+                                    <textarea id="summernote2" name="addi_info" class="form-control" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Preview Image</label>
-                                    <input type="file" name="preview" class="form-control">
+                                    <input type="file" name="preview" class="form-control"  onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+                                    <div class="my-2">
+                                        <img width="150" src="" id="blah" alt="">
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="" class="form-label">Gallery Image</label>
-                                    <input type="file" name="gallery" class="form-control">
+                                <div class="upload__box">
+                                    <span class="d-block pb-2">Gallery Images</span>
+                                    <div class="upload__btn-box">
+                                      <label class="upload__btn">
+                                        <p>Upload product gallery images</p>
+                                        <input type="file" name="gallery[]" multiple="" data-max_length="20" class="upload__inputfile">
+                                      </label>
+                                    </div>
+                                    <div class="upload__img-wrap"></div>
                                 </div>
                             </div>
 
@@ -123,6 +132,7 @@
 @endsection
 @section('footer_script')
     <script>
+        // selectize js code
         $("#input-tags").selectize({
             delimiter: ",",
             persist: false,
@@ -135,6 +145,7 @@
         });
     </script>
     <script>
+        // ajsx url code
         $('.category').change(function(){
             var category_id = $(this).val();
 
@@ -153,5 +164,77 @@
                 }
             });
         })
+    </script>
+
+    <script>
+        // summernote js
+        $(document).ready(function() {
+            $('#summernote').summernote();
+            $('#summernote2').summernote();
+        });
+    </script>
+    <script>
+        // multiple image preview js
+        jQuery(document).ready(function () {
+        ImgUpload();
+    });
+
+    function ImgUpload() {
+    var imgWrap = "";
+    var imgArray = [];
+
+  $('.upload__inputfile').each(function () {
+    $(this).on('change', function (e) {
+      imgWrap = $(this).closest('.upload__box').find('.upload__img-wrap');
+      var maxLength = $(this).attr('data-max_length');
+
+      var files = e.target.files;
+      var filesArr = Array.prototype.slice.call(files);
+      var iterator = 0;
+      filesArr.forEach(function (f, index) {
+
+        if (!f.type.match('image.*')) {
+          return;
+        }
+
+        if (imgArray.length > maxLength) {
+          return false
+        } else {
+          var len = 0;
+          for (var i = 0; i < imgArray.length; i++) {
+            if (imgArray[i] !== undefined) {
+              len++;
+            }
+          }
+          if (len > maxLength) {
+            return false;
+          } else {
+            imgArray.push(f);
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                    var html = "<div class='upload__img-box'><div style='background-image: url(" + e.target.result + ")' data-number='" + $(".upload__img-close").length + "' data-file='" + f.name + "' class='img-bg'><div class='upload__img-close'></div></div></div>";
+                    imgWrap.append(html);
+                    iterator++;
+                    }
+                    reader.readAsDataURL(f);
+                }
+                }
+            });
+            });
+        });
+
+        $('body').on('click', ".upload__img-close", function (e) {
+            var file = $(this).parent().data("file");
+            for (var i = 0; i < imgArray.length; i++) {
+            if (imgArray[i].name === file) {
+                imgArray.splice(i, 1);
+                break;
+            }
+            }
+            $(this).parent().parent().remove();
+        });
+        }
+
     </script>
 @endsection

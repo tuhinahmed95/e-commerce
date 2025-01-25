@@ -7,7 +7,7 @@
                 <h3>Brand List</h3>
             </div>
             <div class="d-flex justify-content-end">
-                <a href="{{ route('brand.create') }}" class="btn btn-primary mr-3">Add New Brand</a>
+                <a href="{{ route('brand.create') }}" class="btn btn-primary mr-3"><i data-feather="plus"></i>Add New Brand</a>
             </div>
             <div class="card-body">
                 <table class="table table-bordered">

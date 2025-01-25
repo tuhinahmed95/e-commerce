@@ -9,7 +9,7 @@
                         <h3>Category List</h3>
                     </div>
                 <div class="d-flex justify-content-end mx-3">
-                    <a href="{{ route('category.create') }}" class="btn btn-success">Add New Category</a>
+                    <a href="{{ route('category.create') }}" class="btn btn-success"><i data-feather="plus"></i>Add New Category</a>
                 </div>
                     <div class="card-body">
                         @if(session('soft_delete'))
