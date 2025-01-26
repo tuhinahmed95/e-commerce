@@ -10,8 +10,8 @@
                 <a href="{{ route('prduct.create') }}" class="btn btn-primary mr-3"><i data-feather="plus"></i>Add New Product</a>
             </div>
             <div class="card-body">
-                <table class="table table-bordered">
-                    <tr>
+                <table class="table table-bordered text-center">
+                    <tr class="text-center">
                         <th>SL</th>
                         <th>Product Name</th>
                         <th>Price</th>
@@ -29,16 +29,18 @@
                         <td>{{ $product->discount }}</td>
                         <td>{{ $product->after_discount }}</td>
                         <td>
-                            <img src="{{ asset('uploads/product/preview')}}/{{ $product->preview }}" alt="product-image">
+                            <img src="{{ asset($product->preview) }}" alt="product-image">
                         </td>
                         <td>
                             <input type="checkbox" {{ $product->status == 1?'checked':'' }} data-id="{{ $product->id }}" class="status"  data-toggle="toggle" value="{{ $product->status }}">
 
                         </td>
                         <td>
+                            <a href="{{ route('inventory.list',$product->id) }}" class="btn btn-primary btn-icon"><i data-feather="layers"></i></a>
+
                             <a href="{{ route('product.eidt',$product->id) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
 
-                            <a href="" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                            <a href="{{ route('product.delete',$product->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
 

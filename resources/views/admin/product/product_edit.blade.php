@@ -7,7 +7,7 @@
                     <h3>Product Update</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('prduct.update',$product->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('product.update',$product->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">

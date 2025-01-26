@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubcategoryController;
@@ -66,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/product/store',[ProductController::class,'product_store'])->name('prduct.store');
     Route::get('/product/edit/{id}',[ProductController::class,'product_edit'])->name('product.eidt');
     Route::post('/product/update/{id}',[ProductController::class,'product_update'])->name('product.update');
+    Route::get('/product/delete/{id}',[ProductController::class,'product_delete'])->name('product.delete');
     Route::post('/getSubcategory',[ProductController::class,'getsubcategory']);
     Route::post('/getStatus',[ProductController::class,'getStatus']);
 
@@ -84,6 +86,11 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/size/stor',[VariationController::class,'size_store'])->name('size.store');
     Route::get('/size/delete/{id}',[VariationController::class,'size_delete'])->name('size.delete');
+
+    // Inventory
+    Route::get('/inventory/create/{id}',[InventoryController::class,'inventory_create'])->name('inventory.create');
+    Route::get('/inventory/list/{id}',[InventoryController::class,'inventory_list'])->name('inventory.list');
+    Route::post('/inventory/store/{id}',[InventoryController::class,'inventory_store'])->name('inventory.store');
 });
 
 

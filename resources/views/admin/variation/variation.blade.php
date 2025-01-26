@@ -16,7 +16,7 @@
                     </tr>
                     @foreach ($colors as $key=>$color )
                     <tr>
-                        <td>{{ $color->id }}</td>
+                        <td>{{ $key+1 }}</td>
                         <td>{{ $color->color_name }}</td>
                         <td>
                             <i style="display:inline-block; width: 35px; height: 35px; background:{{ $color->color_name =='NA'?'':$color->color_code}}; color:{{ $color->color_name =='NA'?:'transparent'}}">{{ $color->color_name =='NA'?$color->color_name:'color'}}</i>
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card mt-3">
             <div class="card-header">
                 <h3>Size List</h3>
             </div>

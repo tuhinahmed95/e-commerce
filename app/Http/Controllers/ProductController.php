@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use App\Models\Subcategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -47,8 +48,8 @@ class ProductController extends Controller
         if ($request->hasFile('preview')) {
             $image = $request->file('preview');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
-            $image_path = 'uploads/product/preview' . $image_name;
-            $image->move(public_path('uploads/product/preview'), $image_name);
+            $image_path = 'uploads/product/preview/' . $image_name;
+            $image->move(public_path('uploads/product/preview/'), $image_name);
         }
 
 
@@ -70,13 +71,14 @@ class ProductController extends Controller
         $product_id = $product->id;
         $galleris = $request->gallery;
         foreach($galleris as $gallery){
-            $image_name = time() . '.' . $$gallery->getClientOriginalExtension();
-            $image_path = 'uploads/product/' . $image_name;
-            $$gallery->move(public_path('uploads/product/gallery'), $image_name);
+            $image_name = time() . '.' . $gallery->getClientOriginalExtension();
+            $image_path = 'uploads/product/gallery/' . $image_name;
+            $gallery->move(public_path('uploads/product/gallery/'), $image_name);
 
             ProductGallery::insert([
                 'product_id'=>$product_id,
                 'gallery'=>$image_path,
+                'created_at'=>Carbon::now(),
             ]);
         }
         return redirect()->route('product.list');
@@ -118,5 +120,11 @@ class ProductController extends Controller
         Product::find($request->product_id)->update([
             'status'=>$request->status,
         ]);
+    }
+
+    public function product_delete($id){
+        $products = Product::find($id);
+        $products->delete();
+        return back();
     }
 }
