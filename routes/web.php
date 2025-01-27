@@ -88,9 +88,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/size/delete/{id}',[VariationController::class,'size_delete'])->name('size.delete');
 
     // Inventory
-    Route::get('/inventory/create/{id}',[InventoryController::class,'inventory_create'])->name('inventory.create');
-    Route::get('/inventory/list/{id}',[InventoryController::class,'inventory_list'])->name('inventory.list');
-    Route::post('/inventory/store/{id}',[InventoryController::class,'inventory_store'])->name('inventory.store');
+   Route::get('/inventory/{id}',[InventoryController::class,'add_inventory'])->name('add.inventory');
+   Route::post('/inventory/store/{id}',[InventoryController::class,'inventory_store'])->name('inventory.store');
+   Route::get('/inventory/delete/{id}',[InventoryController::class,'inventory_delete'])->name('inventory.delete');
 });
 
 

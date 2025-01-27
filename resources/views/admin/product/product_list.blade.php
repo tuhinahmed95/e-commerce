@@ -36,7 +36,7 @@
 
                         </td>
                         <td>
-                            <a href="{{ route('inventory.list',$product->id) }}" class="btn btn-primary btn-icon"><i data-feather="layers"></i></a>
+                            <a href="{{ route('add.inventory',$product->id) }}" class="btn btn-primary btn-icon"><i data-feather="layers"></i></a>
 
                             <a href="{{ route('product.eidt',$product->id) }}" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
 

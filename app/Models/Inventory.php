@@ -12,4 +12,12 @@ class Inventory extends Model
         'size_id',
         'quantity',
     ];
+
+    public function rel_color(){
+        return $this->belongsTo(Color::class,'color_id');
+    }
+
+    public function relt_size(){
+        return $this->belongsTo(Size::class,'size_id');
+    }
 }
