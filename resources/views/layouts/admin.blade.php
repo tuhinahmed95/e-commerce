@@ -275,12 +275,11 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item nav-category">Pages</li>
+          <li class="nav-item nav-category">FrontEnd Section</li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#general-pages" role="button" aria-expanded="false" aria-controls="general-pages">
+            <a class="nav-link" href="{{ route('banner') }}">
               <i class="link-icon" data-feather="book"></i>
-              <span class="link-title">Special pages</span>
-              <i class="link-arrow" data-feather="chevron-down"></i>
+              <span class="link-title">Banner</span>
             </a>
             <div class="collapse" id="general-pages">
               <ul class="nav sub-menu">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/',[FronendController::class,'welcome']);
+Route::get('/',[FronendController::class,'welcome'])->name('index');
 
 Route::get('/dashboard', [HomeController::class,'dashboard'])->middleware(['auth','verified'])->name('dashboard');
 
@@ -25,6 +26,12 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
+
+// banner
+Route::get('/banner',[BannerController::class,'banner'])->name('banner');
+Route::post('/banner/store',[BannerController::class,'banner_store'])->name('banner.store');
+
+
 
  //user
  Route::get('/user/update',[UserController::class,'user_update'])->name('user.update');
