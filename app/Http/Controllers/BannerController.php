@@ -36,4 +36,13 @@ class BannerController extends Controller
         ]);
         return back();
     }
+
+    public function banner_delete($id){
+        $banner = Banner::find($id);
+        if ($banner && file_exists(public_path('uploads/banner/' . $banner->image))) {
+            unlink(public_path('uploads/banner/' . $banner->image));
+            $banner->delete();
+        }
+      return back();
+    }
 }

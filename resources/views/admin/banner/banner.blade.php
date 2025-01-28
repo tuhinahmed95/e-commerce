@@ -20,7 +20,7 @@
                             </td>
                             <td>{{ $banner->title }}</td>
                             <td>
-                                <a href="" class="btn btn-danger icon"><i data-feather="trash"></i></a>
+                                <a href="{{ route('banner.delete',$banner->id) }}" class="btn btn-danger icon"><i data-feather="trash"></i></a>
                             </td>
                         </tr>
                         @endforeach

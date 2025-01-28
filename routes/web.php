@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubcategoryController;
@@ -30,6 +31,7 @@ require __DIR__.'/auth.php';
 // banner
 Route::get('/banner',[BannerController::class,'banner'])->name('banner');
 Route::post('/banner/store',[BannerController::class,'banner_store'])->name('banner.store');
+Route::get('/banner/delete/{id}',[BannerController::class,'banner_delete'])->name('banner.delete');
 
 
 
@@ -98,6 +100,11 @@ Route::middleware('auth')->group(function () {
    Route::get('/inventory/{id}',[InventoryController::class,'add_inventory'])->name('add.inventory');
    Route::post('/inventory/store/{id}',[InventoryController::class,'inventory_store'])->name('inventory.store');
    Route::get('/inventory/delete/{id}',[InventoryController::class,'inventory_delete'])->name('inventory.delete');
+
+//    Offers
+    Route::get('/offer',[OfferController::class,'offer'])->name('offer');
+
+
 });
 
 
