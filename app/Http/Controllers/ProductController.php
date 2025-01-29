@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\ProductGallery;
-use App\Models\Subcategory;
 use Carbon\Carbon;
+use App\Models\Brand;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Subcategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductGallery;
 
 class ProductController extends Controller
 {
@@ -31,13 +32,14 @@ class ProductController extends Controller
     }
 
     public function product_store(Request $request){
+
         $request->validate([
             'category_id'=>'required',
             'subcategory_id'=>'required',
             'brand_id'=>'required',
             'product_name'=>'required',
             'price'=>'required',
-            'discount'=>'required',
+            'discount'=>'nullable',
             'short_des'=>'required',
             'tags'=>'required',
             'long_des'=>'required',
@@ -45,6 +47,8 @@ class ProductController extends Controller
             'preview'=>'required',
 
         ]);
+            $makeSlug = array("@","#","(",")","*","/"," ",'"');
+            $slug = Str::lower(str_replace($makeSlug,'-',$request->product_name)).'-'.random_int(6000,7000);
         if ($request->hasFile('preview')) {
             $image = $request->file('preview');
             $image_name = time() . '.' . $image->getClientOriginalExtension();
@@ -66,6 +70,7 @@ class ProductController extends Controller
             'long_desc' => $request->long_des,
             'addi_info' => $request->addi_info,
             'preview' => $image_path,
+            'slug' => $slug,
         ]);
 
         $product_id = $product->id;
@@ -96,7 +101,10 @@ class ProductController extends Controller
 
     public function product_edit($id){
         $product = Product::find($id);
-        return view('admin.product.product_edit',compact('product'));
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        $brands = Brand::all();
+        return view('admin.product.product_edit',compact('product','subcategories','categories','brands'));
     }
 
     public function product_update(Request $request,$id){

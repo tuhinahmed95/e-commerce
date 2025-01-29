@@ -407,7 +407,7 @@
         <!-- end of wpo-site-footer-section -->
 
         <!-- start wpo-newsletter-popup-area-section -->
-        <section class="wpo-newsletter-popup-area-section">
+        {{-- <section class="wpo-newsletter-popup-area-section">
             <div class="wpo-newsletter-popup-area">
                 <div class="wpo-newsletter-popup-ineer">
                     <button class="btn newsletter-close-btn"><i class="ti-close"></i></button>
@@ -432,7 +432,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <!-- end wpo-newsletter-popup-area-section -->
 
     </div>
@@ -448,5 +448,6 @@
     <script src="{{ asset('frontend') }}/js/jquery-plugin-collection.js"></script>
     <!-- Custom script for this template -->
     <script src="{{ asset('frontend') }}/js/script.js"></script>
+    @yield('footer_script')
 </body>
 </html>

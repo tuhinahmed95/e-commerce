@@ -26,6 +26,7 @@ return new class extends Migration
             $table->longText('addi_info')->nullable();
             $table->string('preview');
             $table->integer('status')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

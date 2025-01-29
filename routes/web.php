@@ -15,6 +15,7 @@ use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FronendController::class,'welcome'])->name('index');
+Route::get('product/details/{id}',[FronendController::class,'product_details'])->name('product.details');
 
 Route::get('/dashboard', [HomeController::class,'dashboard'])->middleware(['auth','verified'])->name('dashboard');
 
@@ -103,6 +104,12 @@ Route::middleware('auth')->group(function () {
 
 //    Offers
     Route::get('/offer',[OfferController::class,'offer'])->name('offer');
+    Route::post('/offer/update/{id}',[OfferController::class,'offer1_update'])->name('offer1.update');
+    Route::post('/offer2/update/{id}',[OfferController::class,'offer2_update'])->name('offer2.update');
+
+    // Subscribe
+    Route::get('/subscribe',[FronendController::class,'subscribe'])->name('subscribe');
+    Route::post('/subscribe/store',[FronendController::class,'subscribe_store'])->name('subscribe.store');
 
 
 });
