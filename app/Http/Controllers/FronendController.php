@@ -60,4 +60,25 @@ class FronendController extends Controller
 
     return view('frontend.product_details',compact('product_info','product_gallery','varient_color','varient_sizes'));
    }
+
+   public function getSize(Request $request){
+       $str = '';
+       $sizes = Inventory::where('color_id', $request->color_id)->where('product_id',$request->product_id)->get();
+      foreach($sizes as $size){
+        if($size->relt_size->size_name == 'NA'){
+            $str = '<li class="color"><input checked class="size_id" type="radio" id="size'.$size->size_id.'" name="size_id" value="size'.$size->size_id.'">
+            <label for="size'.$size->size_id.'">'.$size->relt_size->size_name.'</label>
+            </li>';
+        }else{
+            $str .= '<li class="color"><input class="size_id" type="radio" id="size'.$size->size_id.'" name="size_id" value="size'.$size->size_id.'">
+            <label for="size'.$size->size_id.'">'.$size->relt_size->size_name.'</label>
+            </li>';
+        }
+        echo $str;
+      }
+   }
+
+//    public function getQuantity(Request $request){
+//     echo $request->color_id.$request->product_id.$request->size_id;
+//    }
 }

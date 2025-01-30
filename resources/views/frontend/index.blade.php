@@ -55,9 +55,11 @@
                 <div class="text">
                     <h2>
                         @if(strlen($category->category_name) >10)
-                         <a title="{{ $category->category_name }}" href="product.html">{{ substr($category->category_name, 0,10).'..' }}</a>
+                         <a href="product.html" title="{{ $category->category_name }}">
+                            {{ substr($category->category_name, 0,10).'..' }}</a>
                         @else
-                         <a title="{{ $category->category_name }}" href="product.html">{{ $category->category_name }}</a>
+                         <a href="product.html"  title="{{ $category->category_name }}">
+                            {{ $category->category_name }}</a>
                         @endif
                     </h2>
                 </div>

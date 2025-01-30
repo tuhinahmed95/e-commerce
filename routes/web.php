@@ -3,6 +3,7 @@
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
@@ -15,7 +16,9 @@ use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FronendController::class,'welcome'])->name('index');
-Route::get('product/details/{id}',[FronendController::class,'product_details'])->name('product.details');
+Route::get('product/details/{slug}',[FronendController::class,'product_details'])->name('product.details');
+Route::post('/getSize',[FronendController::class,'getSize']);
+// Route::post('/getQuantity',[FronendController::class,'getQuantity']);
 
 Route::get('/dashboard', [HomeController::class,'dashboard'])->middleware(['auth','verified'])->name('dashboard');
 
@@ -110,6 +113,12 @@ Route::middleware('auth')->group(function () {
     // Subscribe
     Route::get('/subscribe',[FronendController::class,'subscribe'])->name('subscribe');
     Route::post('/subscribe/store',[FronendController::class,'subscribe_store'])->name('subscribe.store');
+
+    // Customer
+    Route::get('/customer/login',[CustomerAuthController::class,'customer_login'])->name('customer.login');
+    Route::get('/customer/register',[CustomerAuthController::class,'customer_register'])->name('customer.register');
+    Route::post('/customer/store',[CustomerAuthController::class,'customer_store'])->name('customer.store');
+    Route::post('/customer/logged',[CustomerAuthController::class,'customer_logged'])->name('customer.logged');
 
 
 });

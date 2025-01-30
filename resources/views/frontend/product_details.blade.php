@@ -67,11 +67,11 @@
                                 <ul>
                                     @foreach ($varient_color as $colors)
                                     @if ($colors->rel_color->color_name)
-                                        <li class="color1"><input checked id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
+                                        <li class="color"><input class="color_id" checked id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
                                             <label for="color{{ $colors->color_id }}" style="background: {{ $colors->rel_color->color_code }}">NA</label>
                                         </li>
                                     @else
-                                        <li class="color1"><input id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
+                                        <li class="color"><input class="color_id" id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
                                             <label for="color{{ $colors->color_id }}" style="background: {{ $colors->rel_color->color_code }}"></label>
                                         </li>
                                     @endif
@@ -83,9 +83,9 @@
                         <div class="product-filter-item color filter-size">
                             <div class="color-name">
                                 <span>Sizes:</span>
-                                <ul>
+                                <ul class="size_aval">
                                     @foreach ($varient_sizes as $size)
-                                    <li class="color"><input id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
+                                    <li class="color"><input class="size_id" id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
                                         <label for="size{{$size->size_id}}">{{ $size->relt_size->size_name }}</label>
                                     </li>
                                     @endforeach
@@ -111,6 +111,8 @@
                                 <a href="" class="badge bg-warning text-dark">{{ $tags }}</a>
                                 @endforeach
                             </li>
+
+                            <li><span id="quan"></span></li>
                         </ul>
                     </div>
                 </div>
@@ -339,4 +341,51 @@
     </div>
 </div>
 <!-- product-single-section  end-->
+@endsection
+
+@section('footer_script')
+<script>
+    $('.color_id').click(function(){
+       var color_id = $(this).val();
+       var product_id = '{{ $product_info->id }}';
+
+       $.ajaxSetup({
+                headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+            });
+
+        $.ajax({
+            url:'/getSize',
+            type:'POST',
+            data:{'color_id':color_id, 'product_id':product_id},
+            success: function (data){
+                $('.size_aval').html(data);
+
+
+                // $('size_id').click(function(){
+                //     var size_id = $(this).val();
+
+                //     $.ajaxSetup({
+                //             headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //         }
+                //     });
+
+                //     $.ajax({
+                //         url:'/getQuantity',
+                //         type:'post',
+                //         data:{'color_id':color_id, 'product_id':product_id, 'size_id':size_id}
+                //         success: function(data){
+                //             alert()
+                //         }
+                //     })
+
+
+                // });
+
+            }
+        });
+    })
+</script>
 @endsection
