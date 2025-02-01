@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerAuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
@@ -51,7 +53,6 @@ Route::get('/banner/delete/{id}',[BannerController::class,'banner_delete'])->nam
  Route::get('/user/delete/{id}',[HomeController::class,'user_delete'])->name('user.delete');
 
 Route::middleware('auth')->group(function () {
-
     //  category
     Route::get('/category/create',[CategoryController::class,'category_create'])->name('category.create');
     Route::post('category/store',[CategoryController::class,'category_store'])->name('category.store');
@@ -114,13 +115,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/subscribe',[FronendController::class,'subscribe'])->name('subscribe');
     Route::post('/subscribe/store',[FronendController::class,'subscribe_store'])->name('subscribe.store');
 
-    // Customer
-    Route::get('/customer/login',[CustomerAuthController::class,'customer_login'])->name('customer.login');
-    Route::get('/customer/register',[CustomerAuthController::class,'customer_register'])->name('customer.register');
-    Route::post('/customer/store',[CustomerAuthController::class,'customer_store'])->name('customer.store');
-    Route::post('/customer/logged',[CustomerAuthController::class,'customer_logged'])->name('customer.logged');
-
-
 });
+
+ // Customer
+ Route::get('/customer/login',[CustomerAuthController::class,'customer_login'])->name('customer.login');
+ Route::get('/customer/register',[CustomerAuthController::class,'customer_register'])->name('customer.register');
+ Route::post('/customer/store',[CustomerAuthController::class,'customer_store'])->name('customer.store');
+ Route::post('/customer/logged',[CustomerAuthController::class,'customer_logged'])->name('customer.logged');
+ Route::get('/customer/profile',[CustomerController::class,'customer_profile'])->name('customer.profile');
+ Route::get('/customer/logout',[CustomerController::class,'customer_logout'])->name('customer.logout');
+ Route::post('/customer/update',[CustomerController::class,'customer_update'])->name('customer.update');
+
+//  Cart
+Route::post('/add/cart',[CartController::class,'add_cart'])->name('add.cart');
+
 
 

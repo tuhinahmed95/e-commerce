@@ -48,15 +48,13 @@ class CustomerAuthController extends Controller
         ]);
 
         if (Customer::where('email', $request->email)->exists()) {
-            if(Auth::guard('customer')->attempt(['email'=>$request->email,'password'=>$request->password])){
-                echo 'hoiceh';
-            } else{
-                echo 'vul hoiche';
+            if (Auth::guard('customer')->attempt(['email' => $request->email, 'password' => $request->password])) {
+                return redirect()->route('index');
+            } else {
+                return back()->with('wrong', 'Wrong Password');
             }
         } else {
             return back()->with('exist', 'Email Does Not Exist');
         }
-
-
     }
 }

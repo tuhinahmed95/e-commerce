@@ -95,6 +95,10 @@
                                             @error('password')
                                                  <strong>{{ $message }}</strong>
                                             @enderror
+
+                                            @if (session('wrong'))
+                                                <div class="alert alert-danger">{{ session('wrong') }}</div>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-12">

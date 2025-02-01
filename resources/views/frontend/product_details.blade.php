@@ -23,100 +23,115 @@
   <div class="product-single-section section-padding">
     <div class="container">
         <div class="product-details">
-            <div class="row align-items-center">
-                <div class="col-lg-5">
-                    <div class="product-single-img">
-                        <div class="product-active owl-carousel">
-                            @foreach ($product_gallery as $product_gal)
-                                <div class="item">
-                                    <img height="400" src="{{ asset($product_gal->gallery) }}" alt="">
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="product-thumbnil-active  owl-carousel">
-                            @foreach ($product_gallery as $product_gal)
-                                <div class="item">
-                                    <img height="100" src="{{ asset($product_gal->gallery) }}" alt="">
-                                </div>
-                            @endforeach
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-7">
-                    <div class="product-single-content">
-                        <h2>{{ $product_info->product_name }}</h2>
-                        <div class="price">
-                            <span class="present-price">&#2547;{{ $product_info->after_discount }}</span>
-                            @if ($product_info->discount)
-                                <del class="old-price">&#2547;{{ $product_info->price }}</del>
-                            @endif
-                        </div>
-                        <div class="rating-product">
-                            <i class="fi flaticon-star"></i>
-                            <i class="fi flaticon-star"></i>
-                            <i class="fi flaticon-star"></i>
-                            <i class="fi flaticon-star"></i>
-                            <i class="fi flaticon-star"></i>
-                            <span>120</span>
-                        </div>
-                        <p>{{ $product_info->short_desc }} </p>
-                        <div class="product-filter-item color">
-                            <div class="color-name">
-                                <span>Color :</span>
-                                <ul>
-                                    @foreach ($varient_color as $colors)
-                                    @if ($colors->rel_color->color_name)
-                                        <li class="color"><input class="color_id" checked id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
-                                            <label for="color{{ $colors->color_id }}" style="background: {{ $colors->rel_color->color_code }}">NA</label>
-                                        </li>
-                                    @else
-                                        <li class="color"><input class="color_id" id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
-                                            <label for="color{{ $colors->color_id }}" style="background: {{ $colors->rel_color->color_code }}"></label>
-                                        </li>
-                                    @endif
-
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="product-filter-item color filter-size">
-                            <div class="color-name">
-                                <span>Sizes:</span>
-                                <ul class="size_aval">
-                                    @foreach ($varient_sizes as $size)
-                                    <li class="color"><input class="size_id" id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
-                                        <label for="size{{$size->size_id}}">{{ $size->relt_size->size_name }}</label>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="pro-single-btn">
-                            <div class="quantity cart-plus-minus">
-                                <input class="text-value" type="text" value="1">
-                            </div>
-                            <a href="#" class="theme-btn-s2">Add to cart</a>
-                            <a href="#" class="wl-btn"><i class="fi flaticon-heart"></i></a>
-                        </div>
-                        <ul class="important-text">
-                            <li><span>SKU:</span>FTE569P</li>
-                            <li><span>Categories : </span>{{ $product_info->rel_to_cat->category_name }}</li>
-                            @php
-                                $after_explode = explode(" ", $product_info->tags)
-                            @endphp
-                            <li>
-                                <span>Tags : </span>
-                                @foreach ($after_explode as $tags)
-                                <a href="" class="badge bg-warning text-dark">{{ $tags }}</a>
+            <form action="{{ route('add.cart') }}" method="POST">
+                @csrf
+                <div class="row align-items-center">
+                    <div class="col-lg-5">
+                        <div class="product-single-img">
+                            <div class="product-active owl-carousel">
+                                @foreach ($product_gallery as $product_gal)
+                                    <div class="item">
+                                        <img height="400" src="{{ asset($product_gal->gallery) }}" alt="">
+                                    </div>
                                 @endforeach
-                            </li>
+                            </div>
+                            <div class="product-thumbnil-active  owl-carousel">
+                                @foreach ($product_gallery as $product_gal)
+                                    <div class="item">
+                                        <img height="100" src="{{ asset($product_gal->gallery) }}" alt="">
+                                    </div>
+                                @endforeach
 
-                            <li><span id="quan"></span></li>
-                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="product-single-content">
+                            <h2>{{ $product_info->product_name }}</h2>
+                            <div class="price">
+                                <span class="present-price">&#2547;{{ $product_info->after_discount }}</span>
+                                @if ($product_info->discount)
+                                    <del class="old-price">&#2547;{{ $product_info->price }}</del>
+                                @endif
+                            </div>
+                            <div class="rating-product">
+                                <i class="fi flaticon-star"></i>
+                                <i class="fi flaticon-star"></i>
+                                <i class="fi flaticon-star"></i>
+                                <i class="fi flaticon-star"></i>
+                                <i class="fi flaticon-star"></i>
+                                <span>120</span>
+                            </div>
+                            <p>{{ $product_info->short_desc }} </p>
+                            <div class="product-filter-item color">
+                                <div class="color-name">
+                                    <span>Color :</span>
+                                    <ul>
+                                        @foreach ($varient_color as $colors)
+                                        @if ($colors->rel_color->color_name)
+                                            <li class="color"><input class="color_id" checked id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
+                                                <label for="color{{ $colors->color_id }}" style="background: {{ $colors->rel_color->color_code }}"></label>
+                                            </li>
+                                        @else
+                                            <li class="color"><input class="color_id" id="color{{ $colors->color_id }}" type="radio" name="color_id" value="{{ $colors->color_id }}">
+                                                <label for="color{{ $colors->color_id }}" style="background: {{ $colors->rel_color->color_code }}">NA</label>
+                                            </li>
+                                        @endif
+
+                                        @endforeach
+                                    </ul>
+                                    @error('color_id')
+                                        <strong class="text-danger">Color is required</strong>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="product-filter-item color filter-size">
+                                <div class="color-name">
+                                    <span>Sizes:</span>
+                                    <ul class="size_aval">
+                                        @foreach ($varient_sizes as $size)
+                                        <li class="color"><input class="size_id" id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
+                                            <label for="size{{$size->size_id}}">{{ $size->relt_size->size_name }}</label>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    @error('size_id')
+                                        <strong class="text-danger">Size is required</strong>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="pro-single-btn">
+                                <div class="quantity cart-plus-minus">
+                                    <input class="text-value" name="quantity" type="text" value="1">
+                                </div>
+                                @auth('customer')
+                                    <button type="submit" class="btn btn-primary">Add to cart</button>
+                                @else
+                                    <a href="{{ route('customer.login') }}" class="theme-btn-s2">Add to cart</a>
+                                @endauth
+                                <a href="#" class="wl-btn"><i class="fi flaticon-heart"></i></a>
+                            </div>
+                            <input type="hidden" name="product_id" value="{{ $product_info->id }}">
+                            <ul class="important-text">
+                                <li><span>SKU:</span>FTE569P</li>
+                                <li><span>Quantity:</span></li>
+                                <li><span>Categories : </span>{{ $product_info->rel_to_cat->category_name }}</li>
+                                @php
+                                    $after_explode = explode(" ", $product_info->tags)
+                                @endphp
+                                <li>
+                                    <span>Tags : </span>
+                                    @foreach ($after_explode as $tags)
+                                    <a href="" class="badge bg-warning text-dark">{{ $tags }}</a>
+                                    @endforeach
+                                </li>
+
+                                <li><span id="quan"></span></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
         <div class="product-tab-area">
             <ul class="nav nav-mb-3 main-tab" id="tab" role="tablist">
@@ -363,29 +378,43 @@
                 $('.size_aval').html(data);
 
 
-                // $('size_id').click(function(){
-                //     var size_id = $(this).val();
+                $('size_id').click(function(){
+                    var size_id = $(this).val();
 
-                //     $.ajaxSetup({
-                //             headers: {
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //         }
-                //     });
+                    $.ajaxSetup({
+                            headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
 
-                //     $.ajax({
-                //         url:'/getQuantity',
-                //         type:'post',
-                //         data:{'color_id':color_id, 'product_id':product_id, 'size_id':size_id}
-                //         success: function(data){
-                //             alert()
-                //         }
-                //     })
+                    $.ajax({
+                        url:'/getQuantity',
+                        type:'post',
+                        data:{'color_id':color_id, 'product_id':product_id, 'size_id':size_id}
+                        success: function(data){
+                            alert()
+                        }
+                    })
 
 
-                // });
+                });
 
             }
         });
     })
 </script>
+
+@if (session('cart_add'))
+    <script>
+        Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "{{ session('cart_add') }}",
+        showConfirmButton: false,
+        timer: 1500
+    });
+
+    </script>
+
+@endif
 @endsection

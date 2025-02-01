@@ -16,7 +16,12 @@ class CustomerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::guard('customer')){
+        // if(!Auth::guard('customer')){
+        //     return redirect()->route('customer.login');
+        // }
+        // return $next($request);
+
+        if (!Auth::guard('customer')->check()) { 
             return redirect()->route('customer.login');
         }
         return $next($request);

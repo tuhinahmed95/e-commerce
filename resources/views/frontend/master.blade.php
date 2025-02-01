@@ -124,8 +124,15 @@
                                     <li><a href="compare.html"><i
                                                 class="fi flaticon-right-and-left"></i><span>Compare</span></a>
                                     </li>
-                                    <li><a href="{{ route('customer.login') }}"><i
-                                                class="fi flaticon-user-profile"></i><span>Login</span></a></li>
+                                    <li>
+                                        @auth('customer')
+                                        <a href="{{ route('customer.profile') }}"><i
+                                            class="fi flaticon-user-profile"></i><span>{{ Auth::guard('customer')->user()->fname.''. Auth::guard('customer')->user()->lname }}</span></a></li>
+                                        @else
+                                        <a href="{{ route('customer.login') }}"><i
+                                            class="fi flaticon-user-profile"></i><span>Login</span></a></li>
+                                        @endauth
+
                                     <li>
                                         <div class="header-wishlist-form-wrapper">
                                             <button class="wishlist-toggle-btn"> <i class="fi flaticon-heart"></i>
@@ -189,6 +196,7 @@
                                             <div class="mini-cart-content">
                                                 <button class="mini-cart-close"><i class="ti-close"></i></button>
                                                 <div class="mini-cart-items">
+                                                    @foreach (App\Models\Cart::where('customer_id',Auth::guard('customer')->id())->get() as $cart)
                                                     <div class="mini-cart-item clearfix">
                                                         <div class="mini-cart-item-image">
                                                             <a href="product.html"><img
@@ -202,19 +210,8 @@
                                                                         class="ti-close"></i></a></span>
                                                         </div>
                                                     </div>
-                                                    <div class="mini-cart-item clearfix">
-                                                        <div class="mini-cart-item-image">
-                                                            <a href="product.html"><img
-                                                                    src="{{ asset('frontend') }}/images/cart/img-2.jpg"
-                                                                    alt></a>
-                                                        </div>
-                                                        <div class="mini-cart-item-des">
-                                                            <a href="product.html">Blue Bag</a>
-                                                            <span class="mini-cart-item-price">$120 x 2</span>
-                                                            <span class="mini-cart-item-quantity"><a href="#"><i
-                                                                        class="ti-close"></i></a></span>
-                                                        </div>
-                                                    </div>
+                                                    @endforeach
+
                                                 </div>
                                                 <div class="mini-cart-action clearfix">
                                                     <span class="mini-checkout-price">Subtotal:
@@ -464,6 +461,7 @@
     <script src="{{ asset('frontend') }}/js/jquery-plugin-collection.js"></script>
     <!-- Custom script for this template -->
     <script src="{{ asset('frontend') }}/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('footer_script')
 </body>
 
