@@ -90,9 +90,16 @@
                                     <span>Sizes:</span>
                                     <ul class="size_aval">
                                         @foreach ($varient_sizes as $size)
-                                        <li class="color"><input class="size_id" id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
-                                            <label for="size{{$size->size_id}}">{{ $size->relt_size->size_name }}</label>
-                                        </li>
+                                        @if ($size->relt_size->size_name == 'NA')
+                                            <li class="color"><input class="size_id" checked id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
+                                                <label for="size{{$size->size_id}}">{{ $size->relt_size->size_name }}</label>
+                                            </li>
+                                        @else
+                                            <li class="color"><input class="size_id"  id="size{{$size->size_id}}" type="radio" name="size_id" value="{{$size->size_id}}">
+                                                <label for="size{{$size->size_id}}">{{ $size->relt_size->size_name }}</label>
+                                            </li>
+                                        @endif
+
                                         @endforeach
                                     </ul>
                                     @error('size_id')

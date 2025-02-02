@@ -4,6 +4,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FronendController;
@@ -115,6 +116,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/subscribe',[FronendController::class,'subscribe'])->name('subscribe');
     Route::post('/subscribe/store',[FronendController::class,'subscribe_store'])->name('subscribe.store');
 
+    // Cupon
+    Route::get('/cupon/list',[CuponController::class,'cupon_list'])->name('cupon.list');
+    Route::get('/cupon/create',[CuponController::class,'cupon_create'])->name('cupon.create');
+    Route::post('/cupon/store',[CuponController::class,'cupon_store'])->name('cupon.store');
+    Route::get('/cupon/status/{id}',[CuponController::class,'cupon_status'])->name('cupon.status');
+    Route::get('/cupon/edit/{id}',[CuponController::class,'cupon_edit'])->name('cupon.edit');
+    Route::post('/cupon/update/{id}',[CuponController::class,'cupon_update'])->name('cupon.update');
+    Route::get('/cupon/delete/{id}',[CuponController::class,'cupon_delete'])->name('cupon.delete');
+
 });
 
  // Customer
@@ -128,6 +138,9 @@ Route::middleware('auth')->group(function () {
 
 //  Cart
 Route::post('/add/cart',[CartController::class,'add_cart'])->name('add.cart');
+Route::get('/cart/remove/{id}',[CartController::class,'cart_remove'])->name('cart.remove');
+Route::get('/cart',[CartController::class,'cart'])->name('cart');
+Route::post('/cart/update',[CartController::class,'cart_update'])->name('cart.update');
 
 
 
