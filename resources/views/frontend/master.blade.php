@@ -14,6 +14,7 @@
     <link href="{{ asset('frontend') }}/css/flaticon_ecommerce.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/animate.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{ asset('frontend') }}/css/owl.carousel.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/owl.theme.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/slick.css" rel="stylesheet">
@@ -23,6 +24,11 @@
     <link href="{{ asset('frontend') }}/css/jquery.fancybox.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/odometer-theme-default.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/sass/style.css" rel="stylesheet">
+    <style>
+        .select2-container{
+            margin-top: 15px
+        }
+    </style>
 </head>
 
 <body>
@@ -126,12 +132,13 @@
                                     </li>
                                     <li>
                                         @auth('customer')
-                                        <a href="{{ route('customer.profile') }}"><i
-                                            class="fi flaticon-user-profile"></i><span>{{ Auth::guard('customer')->user()->fname.''. Auth::guard('customer')->user()->lname }}</span></a></li>
-                                        @else
+                                            <a href="{{ route('customer.profile') }}"><i
+                                                    class="fi flaticon-user-profile"></i><span>{{ Auth::guard('customer')->user()->fname . '' . Auth::guard('customer')->user()->lname }}</span></a>
+                                        </li>
+                                    @else
                                         <a href="{{ route('customer.login') }}"><i
-                                            class="fi flaticon-user-profile"></i><span>Login</span></a></li>
-                                        @endauth
+                                                class="fi flaticon-user-profile"></i><span>Login</span></a></li>
+                                    @endauth
 
                                     <li>
                                         <div class="header-wishlist-form-wrapper">
@@ -192,15 +199,15 @@
                                     <li>
                                         <div class="mini-cart">
                                             <button class="cart-toggle-btn"> <i class="fi flaticon-add-to-cart"></i>
-                                                <span class="cart-count">{{  App\Models\Cart::where('customer_id',Auth::guard('customer')->id())->count()}}</span></button>
+                                                <span
+                                                    class="cart-count">{{ App\Models\Cart::where('customer_id', Auth::guard('customer')->id())->count() }}</span></button>
                                             <div class="mini-cart-content">
                                                 <button class="mini-cart-close"><i class="ti-close"></i></button>
                                                 <div class="mini-cart-items">
                                                     @php
                                                         $sub = 0;
                                                     @endphp
-                                                    @foreach (App\Models\Cart::where('customer_id',Auth::guard('customer')->id())->get() as $cart)
-
+                                                    @foreach (App\Models\Cart::where('customer_id', Auth::guard('customer')->id())->get() as $cart)
                                                         <div class="mini-cart-item clearfix">
                                                             <div class="mini-cart-item-image">
                                                                 <a href="product.html"><img
@@ -208,14 +215,19 @@
                                                                         alt></a>
                                                             </div>
                                                             <div class="mini-cart-item-des">
-                                                                <a href="product.html">{{ $cart->ret_to_product->product_name }}</a>
-                                                                <span class="mini-cart-item-price">&#2547;{{ $cart->ret_to_product->after_discount }} x {{ $cart->quantity }}</span>
-                                                                <span class="mini-cart-item-quantity"><a href="{{ route('cart.remove',$cart->id) }}"><i
-                                                                class="ti-close"></i></a></span>
+                                                                <a
+                                                                    href="product.html">{{ $cart->ret_to_product->product_name }}</a>
+                                                                <span
+                                                                    class="mini-cart-item-price">&#2547;{{ $cart->ret_to_product->after_discount }}
+                                                                    x {{ $cart->quantity }}</span>
+                                                                <span class="mini-cart-item-quantity"><a
+                                                                        href="{{ route('cart.remove', $cart->id) }}"><i
+                                                                            class="ti-close"></i></a></span>
                                                             </div>
                                                         </div>
                                                         @php
-                                                            $sub += $cart->ret_to_product->after_discount*$cart->quantity;
+                                                            $sub +=
+                                                                $cart->ret_to_product->after_discount * $cart->quantity;
                                                         @endphp
                                                     @endforeach
 
@@ -224,7 +236,8 @@
                                                     <span class="mini-checkout-price">Subtotal:
                                                         <span>&#2547;{{ $sub }}</span></span>
                                                     <div class="mini-btn">
-                                                        <a href="{{ route('cart') }}" class="view-cart-btn">View Cart</a>
+                                                        <a href="{{ route('cart') }}" class="view-cart-btn">View
+                                                            Cart</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -468,6 +481,7 @@
     <script src="{{ asset('frontend') }}/js/jquery-plugin-collection.js"></script>
     <!-- Custom script for this template -->
     <script src="{{ asset('frontend') }}/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('footer_script')
 </body>

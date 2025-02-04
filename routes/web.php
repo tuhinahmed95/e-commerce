@@ -4,6 +4,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CustomerController;
@@ -142,5 +143,7 @@ Route::get('/cart/remove/{id}',[CartController::class,'cart_remove'])->name('car
 Route::get('/cart',[CartController::class,'cart'])->name('cart');
 Route::post('/cart/update',[CartController::class,'cart_update'])->name('cart.update');
 
-
+// Checkout
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::post('/getCity',[CheckoutController::class,'getCity']);
 
