@@ -146,4 +146,6 @@ Route::post('/cart/update',[CartController::class,'cart_update'])->name('cart.up
 // Checkout
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::post('/getCity',[CheckoutController::class,'getCity']);
+Route::post('/order/store', [CheckoutController::class,'order_store'])->name('order.store');
+Route::get('/order/success', [CheckoutController::class,'order_success'])->name('order.success');
 

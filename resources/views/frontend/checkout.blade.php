@@ -28,11 +28,11 @@
                     <div class="col-12">
                         <div class="single-page-title">
                             <h2>Your Checkout</h2>
-                            <p>There are 4 products in this list</p>
+                            <p>There are {{ $carts->count() }} products in this list</p>
                         </div>
                     </div>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('order.store') }}" method="POST">
                     @csrf
                     <div class="checkout-wrap">
                         <div class="row">
@@ -61,11 +61,9 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
-                                                        <input type="text" placeholder="City / Town*" id="City"
-                                                            name="city">
-                                                            <select name="address" id="Country" class="form-control city">
-                                                                <option value=""> Select City*</option>
-                                                            </select>
+                                                        <select name="city" id="city" class="form-control city">
+                                                            <option>Select City*</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
                                                         <input type="text" placeholder="Postcode / ZIP*" id="Post2"
@@ -79,12 +77,12 @@
                                                         <input type="text"  id="email4" name="email" value="{{ Auth::guard('customer')->user()->email }}">
                                                     </div>
                                                     <div class="col-lg-6 col-md-12 col-12">
-                                                        <input type="text" placeholder="Phone*" id="email2"
+                                                        <input type="text" placeholder="Phone*" id="phone"
                                                             name="phone" value="{{ Auth::guard('customer')->user()->phone }}">
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-12">
                                                         <input type="text" placeholder="Address*" id="Adress"
-                                                            name="adress" value="{{ Auth::guard('customer')->user()->address }}">
+                                                            name="address" value="{{ Auth::guard('customer')->user()->address }}">
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-12">
                                                         <div class="note-area">
@@ -97,7 +95,7 @@
                                         </div>
 
                                         <div class="biling-item-3">
-                                            <input id="toggle4" type="checkbox">
+                                            <input id="toggle4" type="checkbox" name="shif_check" value="1">
                                             <label class="fontsize" for="toggle4">Ship to a Different Address?</label>
                                             <div class="billing-adress" id="open4">
                                                 <div class="contact-form form-style">
@@ -111,25 +109,15 @@
                                                                 name="shif_lname">
                                                         </div>
                                                         <div class="col-lg-6 col-md-12 col-12">
-                                                            <select name="shif_country" id="Country2" class="form-control">
-                                                                <option disabled="" selected="">Country*</option>
-                                                                <option>United State</option>
-                                                                <option>Bangladesh</option>
-                                                                <option>India</option>
-                                                                <option>Srilanka</option>
-                                                                <option>Pakisthan</option>
-                                                                <option>Afgansthan</option>
+                                                            <select name="shif_country" id="Country2" class="form-control country2" style="width: 100% !important">
+                                                                @foreach ($countries as $country)
+                                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 col-md-12 col-12">
-                                                            <select name="shif_city" id="Country2" class="form-control">
-                                                                <option disabled="" selected="">City*</option>
-                                                                <option>United State</option>
-                                                                <option>Bangladesh</option>
-                                                                <option>India</option>
-                                                                <option>Srilanka</option>
-                                                                <option>Pakisthan</option>
-                                                                <option>Afgansthan</option>
+                                                            <select name="shif_city" id="City2" class="form-control city2" style="width: 100% !important;">
+                                                                <option value="">Select City*</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-lg-6 col-md-12 col-12">
@@ -150,7 +138,7 @@
                                                         </div>
                                                         <div class="col-lg-12 col-md-12 col-12">
                                                             <input type="text" placeholder="Address*" id="Adress1"
-                                                                name="shif_adress">
+                                                                name="shif_address">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -226,21 +214,24 @@
                                                     <div class="payment-select">
                                                         <ul>
                                                             <li class="">
-                                                                <input id="remove" type="radio" name="payment"
-                                                                    value="30">
+                                                                <input id="remove" type="radio" name="payment_method"
+                                                                    value="1">
                                                                 <label for="remove">Cash on Delivery</label>
                                                             </li>
                                                             <li class="">
-                                                                <input id="add" type="radio" name="payment" checked="checked" value="30">
+                                                                <input id="add" type="radio" name="payment_method" checked="checked" value="2">
                                                                 <label for="add">Pay With SSLCOMMERZ</label>
                                                             </li>
                                                             <li class="">
-                                                                <input id="getway" type="radio" name="payment"
-                                                                    value="30">
+                                                                <input id="getway" type="radio" name="payment_method"
+                                                                    value="3">
                                                                 <label for="getway">Pay With STRIPE</label>
                                                             </li>
                                                         </ul>
                                                     </div>
+                                                    <input type="hidden" name="discount" value="{{ session('discount') }}">
+                                                    <input type="hidden" name="total" value="{{ session('total') }}">
+
                                                     <div id="open6" class="payment-name active">
                                                         <div class="contact-form form-style">
                                                             <div class="row">
@@ -282,8 +273,6 @@
         $('.country').change(function(){
             var country_id = $(this).val();
 
-
-
             $.ajaxSetup({
                 headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -301,9 +290,37 @@
         })
     </script>
     <script>
+        // ajsx url code
+        $('.country2').change(function(){
+            var country_id = $(this).val();
+
+            $.ajaxSetup({
+                headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+            });
+
+            $.ajax({
+                url:'/getCity',
+                type:'POST',
+                data:{'country_id':country_id},
+                success: function (data){
+                   $('.city2').html(data);
+                }
+            });
+        })
+    </script>
+    <script>
         $(document).ready(function() {
             $('#Country').select2();
             $('#City').select2();
+
+        });
+    </script>
+     <script>
+        $(document).ready(function() {
+            $('#Country2').select2();
+            $('#City2').select2();
 
         });
     </script>
