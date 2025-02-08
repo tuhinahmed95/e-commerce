@@ -32,7 +32,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item bg-light"><a href="" class="text-dark">Profile</a></li>
-                        <li class="list-group-item bg-light"><a href="" class="text-dark">My Order</a></li>
+                        <li class="list-group-item bg-light"><a href="{{ route('customer.order') }}" class="text-dark">My Order</a></li>
                         <li class="list-group-item bg-light"><a href="" class="text-dark">My Wishlist</a></li>
                         <li class="list-group-item bg-light"><a href="{{ route('customer.logout') }}" class="text-dark">Logout</a></li>
                     </ul>

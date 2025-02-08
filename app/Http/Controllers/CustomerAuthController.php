@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class CustomerAuthController extends Controller
 {
@@ -56,5 +57,50 @@ class CustomerAuthController extends Controller
         } else {
             return back()->with('exist', 'Email Does Not Exist');
         }
+    }
+
+    public function githubredirect_login(){
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function githubcallback_login(){
+        $githubUser = Socialite::driver('github')->user();
+        $user = Customer::updateOrCreate([
+            'email' =>  $githubUser->email,
+        ]
+        ,[
+            'fname' => $githubUser->name,
+            'lname' => $githubUser->name,
+            'email' => $githubUser->email,
+            'password' => Hash::make(12345),
+            'created_at' => Carbon::now(),
+        ]);
+
+        Auth::guard('customer')->attempt(['email' =>$githubUser->email, 'password' => 12345]);
+        return redirect()->route('index');
+    }
+
+    function googleredirect_login()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    function googlecallback_login()
+    {
+        $googleUser  = Socialite::driver('google')->user();
+        Customer::updateOrCreate(
+            [
+                'email' => $googleUser->email,
+            ],
+            [
+                'fname' => $googleUser->name,
+                'lname' => $googleUser->name,
+                'email' => $googleUser->email,
+                'password' => bcrypt(123456),
+                'created_at' => Carbon::now(),
+            ]
+        );
+
+        Auth::guard('customer')->attempt(['email' => $googleUser->email, 'password' => 12345]);
+        return redirect()->route('index');
     }
 }

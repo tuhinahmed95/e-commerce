@@ -13,6 +13,8 @@ use App\Models\OrderProduct;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class CheckoutController extends Controller
 {
@@ -111,9 +113,10 @@ class CheckoutController extends Controller
                     'quantity' => $cart->quantity,
                     'created_at' => Carbon::now(),
                 ]);
-                Cart::find($cart->id)->delete();
+                // Cart::find($cart->id)->delete();
                 Inventory::where('product_id', $cart->product_id)->where('color_id', $cart->color_id)->where('size_id', $cart->size_id)->decrement('quantity', $cart->quantity);
             }
+            Mail::to($request->email)->send(new InvoiceMail($order_id));
             return redirect()->route('order.success')->with('success',$order_id);
 
         }

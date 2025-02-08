@@ -129,6 +129,11 @@ Route::middleware('auth')->group(function () {
 });
 
  // Customer
+ Route::get('/customer/githubredirect',[CustomerAuthController::class,'githubredirect_login'])->name('githubredirect.login');
+ Route::get('/customer/githubcallback',[CustomerAuthController::class,'githubcallback_login'])->name('githubcallback.login');
+
+ Route::get('/customer/googleredirect',[CustomerAuthController::class,'googleredirect_login'])->name('googleredirect.login');
+ Route::get('/customer/googlecallback',[CustomerAuthController::class,'googlecallback_login'])->name('googlecallback.login');
  Route::get('/customer/login',[CustomerAuthController::class,'customer_login'])->name('customer.login');
  Route::get('/customer/register',[CustomerAuthController::class,'customer_register'])->name('customer.register');
  Route::post('/customer/store',[CustomerAuthController::class,'customer_store'])->name('customer.store');
@@ -136,6 +141,8 @@ Route::middleware('auth')->group(function () {
  Route::get('/customer/profile',[CustomerController::class,'customer_profile'])->name('customer.profile');
  Route::get('/customer/logout',[CustomerController::class,'customer_logout'])->name('customer.logout');
  Route::post('/customer/update',[CustomerController::class,'customer_update'])->name('customer.update');
+ Route::get('/customer/my/order',[CustomerController::class,'customer_order'])->name('customer.order');
+ Route::get('/download/invoice/{id}',[CustomerController::class,'download_invoice'])->name('download.invoice');
 
 //  Cart
 Route::post('/add/cart',[CartController::class,'add_cart'])->name('add.cart');
