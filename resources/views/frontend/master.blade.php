@@ -298,7 +298,7 @@
                                     <button class="menu-close"><i class="ti-close"></i></button>
                                     <ul class="nav navbar-nav mb-2 mb-lg-0">
                                         <li class="menu-item-has-children">
-                                            <a href="#">Home</a>
+                                            <a href="{{ route('index') }}">Home</a>
                                         </li>
                                         <li><a href="about.html">About</a></li>
                                         <li class="menu-item-has-children">

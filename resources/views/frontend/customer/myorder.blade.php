@@ -17,29 +17,9 @@
     </div> <!-- end container -->
 </section>
 <!-- end page-title -->
-
 <div class="container">
     <div class="row mb-3 py-3">
-        <div class="col-lg-3">
-            <div class="card text-center" style="width: 18rem;">
-                @if (Auth::guard('customer')->user()->photo == null)
-                 {{ Auth::guard('customer')->user()->fname.' '.Auth::guard('customer')->user()->lname }}
-                @else
-                    <img width="70" src="{{ asset(Auth::guard('customer')->user()->photo) }}" alt="">
-                @endif
-                {{-- <img src="..." class="card-img-top" alt="..."> --}}
-                <div class="card-body">
-                    <h5 class="card-title">{{ Auth::guard('customer')->user()->fname.' '.Auth::guard('customer')->user()->lname }}</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item bg-light"><a href="" class="text-dark">Profile</a></li>
-                    <li class="list-group-item bg-light"><a href="" class="text-dark">My Order</a></li>
-                    <li class="list-group-item bg-light"><a href="" class="text-dark">My Wishlist</a></li>
-                    <li class="list-group-item bg-light"><a href="{{ route('customer.logout') }}" class="text-dark">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-
+        @include('frontend.includes.profile_sidebar')
         <div class="col-lg-9">
             <div class="card">
                 <div class="card-header">
@@ -63,22 +43,23 @@
                             <td>{{ $my_order->created_at->format('d-m-y') }}</td>
                             <td>
                                 @if ($my_order->status == 0)
-                                    <span class="badge bg-secondary">Placed</span>
+                                    <span class="badge bg-secondary p-2 text-white">Placed</span>
                                 @elseif($my_order->status == 1)
-                                    <span class="badge bg-primary">Proccesing</span>
+                                    <span class="badge bg-success p-2 text-white">Proccesing</span>
                                 @elseif($my_order->status == 2)
-                                    <span class="badge bg-warning">shipping</span>
+                                    <span class="badge bg-warning p-2 text-white">shipping</span>
                                 @elseif($my_order->status == 3)
-                                    <span class="badge bg-info">Ready For Delivery</span>
+                                    <span class="badge bg-info p-2 text-white">Ready For Delivery</span>
                                 @elseif($my_order->status == 4)
-                                    <span class="badge bg-success">Recieved</span>
+                                    <span class="badge bg-primary p-2 text-white">Recieved</span>
                                 @elseif($my_order->status == 5)
-                                    <span class="badge bg-danger">Cancel</span>
+                                    <span class="badge bg-danger p-2 text-white">Cancel</span>
                                 @endif
 
                             </td>
                             <td>
-                                <a href="{{ route('download.invoice',$my_order->id) }}" class="btn btn-warning">Download</a>
+                                <a href="{{ route('download.invoice',$my_order->id) }}" class="btn btn-warning">Invoice Download</a>
+                                <a href="{{ route('order.cancel',$my_order->id) }}" class="btn btn-danger text-white">Order Cancel</a>
                             </td>
                         </tr>
                         @endforeach

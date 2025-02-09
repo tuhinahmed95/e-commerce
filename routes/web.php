@@ -12,6 +12,7 @@ use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubcategoryController;
@@ -155,4 +156,10 @@ Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout
 Route::post('/getCity',[CheckoutController::class,'getCity']);
 Route::post('/order/store', [CheckoutController::class,'order_store'])->name('order.store');
 Route::get('/order/success', [CheckoutController::class,'order_success'])->name('order.success');
+
+// Orders
+Route::get('/orders',[OrderController::class,'orders'])->name('orders');
+Route::post('/orders/status/update/{id}',[OrderController::class,'orders_status_update'])->name('orders.status.update');
+Route::get('/order/cancel/{id}', [OrderController::class, 'order_cancel'])->name('order.cancel');
+Route::post('/order/cancel/request/{id}', [OrderController::class, 'order_cancel_request'])->name('order.cancel.request');
 
