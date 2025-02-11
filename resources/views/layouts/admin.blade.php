@@ -201,21 +201,11 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#tables" role="button" aria-expanded="false" aria-controls="tables">
+            <a class="nav-link" href="{{ route('order.cancel.list') }}">
               <i class="link-icon" data-feather="layout"></i>
-              <span class="link-title">Table</span>
+              <span class="link-title">Cancel Order List</span>
               <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
-            <div class="collapse" id="tables">
-              <ul class="nav sub-menu">
-                <li class="nav-item">
-                  <a href="pages/tables/basic-table.html" class="nav-link">Basic Tables</a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/tables/data-table.html" class="nav-link">Data Table</a>
-                </li>
-              </ul>
-            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#icons" role="button" aria-expanded="false" aria-controls="icons">
@@ -372,51 +362,18 @@
 									<a href="javascript:;" class="text-muted">Clear all</a>
 								</div>
 								<div class="dropdown-body">
-									<a href="javascript:;" class="dropdown-item">
-										<div class="icon">
-											<i data-feather="user-plus"></i>
-										</div>
-										<div class="content">
-											<p>New customer registered</p>
-											<p class="sub-text text-muted">2 sec ago</p>
-										</div>
-									</a>
-									<a href="javascript:;" class="dropdown-item">
-										<div class="icon">
-											<i data-feather="gift"></i>
-										</div>
-										<div class="content">
-											<p>New Order Recieved</p>
-											<p class="sub-text text-muted">30 min ago</p>
-										</div>
-									</a>
-									<a href="javascript:;" class="dropdown-item">
-										<div class="icon">
-											<i data-feather="alert-circle"></i>
-										</div>
-										<div class="content">
-											<p>Server Limit Reached!</p>
-											<p class="sub-text text-muted">1 hrs ago</p>
-										</div>
-									</a>
-									<a href="javascript:;" class="dropdown-item">
-										<div class="icon">
-											<i data-feather="layers"></i>
-										</div>
-										<div class="content">
-											<p>Apps are ready for update</p>
-											<p class="sub-text text-muted">5 hrs ago</p>
-										</div>
-									</a>
-									<a href="javascript:;" class="dropdown-item">
-										<div class="icon">
-											<i data-feather="download"></i>
-										</div>
-										<div class="content">
-											<p>Download completed</p>
-											<p class="sub-text text-muted">6 hrs ago</p>
-										</div>
-									</a>
+                                    @foreach (App\Models\OrderCancel::all() as $orderCancel)
+                                        <a href="javascript:;" class="dropdown-item">
+                                            <div class="icon">
+                                                <i data-feather="user-plus"></i>
+                                            </div>
+                                            <div class="content">
+                                                <p>Order Cancel Request</p>
+                                                <p>Order Id : {{App\Models\Order::find($orderCancel->id)->order_id }}</p>
+                                                <p class="sub-text text-muted">{{ $orderCancel->created_at->diffForHumans() }}</p>
+                                            </div>
+                                        </a>
+                                    @endforeach
 								</div>
 								<div class="dropdown-footer d-flex align-items-center justify-content-center">
 									<a href="javascript:;">View all</a>
@@ -425,7 +382,7 @@
 						</li>
 						<li class="nav-item dropdown nav-profile">
 							<a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if(Auth::user()->photo == null)
+                                @if(Auth::user()?->photo == null)
                                     <img src="#" alt="">
                                 @else
                                     <img src="{{ asset('uploads/user')}}/{{ Auth::user()->photo }}" alt="profile">
@@ -434,7 +391,7 @@
 							<div class="dropdown-menu" aria-labelledby="profileDropdown">
 								<div class="dropdown-header d-flex flex-column align-items-center">
 									<div class="mb-3 figure">
-                                        @if(Auth::user()->photo == null)
+                                        @if(Auth::user()?->photo == null)
                                          <img src="#" alt="">
                                         @else
                                             <img src="{{ asset('uploads/user') }}/{{ Auth::user()->photo }}"alt="">
@@ -442,8 +399,8 @@
 
 									</div>
 									<div class="text-center info">
-										<p class="mb-0 name font-weight-bold">{{ Auth::user()->name }}</p>
-										<p class="mb-3 email text-muted">{{ Auth::user()->email }}</p>
+										<p class="mb-0 name font-weight-bold">{{ Auth::user()?->name }}</p>
+										<p class="mb-3 email text-muted">{{ Auth::user()?->email }}</p>
 									</div>
 								</div>
 								<div class="dropdown-body">

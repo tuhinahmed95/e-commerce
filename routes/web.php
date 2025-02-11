@@ -160,6 +160,9 @@ Route::get('/order/success', [CheckoutController::class,'order_success'])->name(
 // Orders
 Route::get('/orders',[OrderController::class,'orders'])->name('orders');
 Route::post('/orders/status/update/{id}',[OrderController::class,'orders_status_update'])->name('orders.status.update');
-Route::get('/order/cancel/{id}', [OrderController::class, 'order_cancel'])->name('order.cancel');
+Route::get('/order/cancel/customer/{id}', [OrderController::class, 'order_cancel'])->name('order.cancel');
 Route::post('/order/cancel/request/{id}', [OrderController::class, 'order_cancel_request'])->name('order.cancel.request');
+Route::get('/order/cancel/list', [OrderController::class,'order_cancel_list'])->name('order.cancel.list');
+Route::get('/order/cancel/details/{id}', [OrderController::class, 'order_cancel_details'])->name('order.cancel.details');
+Route::get('/order/cancel/accept/{id}', [OrderController::class, 'order_cancel_accept'])->name('order.cancel.accept');
 

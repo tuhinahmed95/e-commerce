@@ -5,10 +5,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h3>Order Cancel Request</h3>
-                <h4 class="d-inline-block bg-info text-white p-2">Order Id : <span class="bg-warning p-2">{{ $orders->order_id }}</span></h4>
+                <h4 class="d-inline-block bg-info text-white p-2">Order Id : {{ $orders?->order_id }}</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('order.cancel.request',$orders->id) }}" method="POST" enctype="multipart/form-data">
+                @if (session('req'))
+                    <div class="alert alert-success">{{ session('req') }}</div>
+                @endif
+
+                <form action="{{ route('order.cancel.request',['id'=> $orders?->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="" class="form-label">Cancel Reson</label>

@@ -33,7 +33,7 @@
                             <th>Total</th>
                             <th>Order Date</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th class="text-center">Action</th>
                         </tr>
                         @foreach ($my_orders as $sl=>$my_order )
                         <tr>
@@ -58,8 +58,21 @@
 
                             </td>
                             <td>
-                                <a href="{{ route('download.invoice',$my_order->id) }}" class="btn btn-warning">Invoice Download</a>
-                                <a href="{{ route('order.cancel',$my_order->id) }}" class="btn btn-danger text-white">Order Cancel</a>
+                                @if(App\Models\OrderCancel::where('order_id',$my_order->id)->exists())
+                                <a class="btn btn-danger">Cancel Request Pending</a>
+                                @else
+                                   @if ($my_order->status == 5)
+                                     <a  class="btn btn-danger">Canceled</a>
+                                   @else
+                                   <a href="{{ route('order.cancel',$my_order->id) }}" class="btn btn-warning">Cancel Order</a>
+                                   @endif
+                                @endif
+                                @if ($my_order->status == 5)
+                                @else
+                                    <a href="{{ route('download.invoice',$my_order->id) }}" class="btn btn-success">Invoice Download</a>
+                                @endif
+
+
                             </td>
                         </tr>
                         @endforeach
