@@ -37,40 +37,45 @@ class CheckoutController extends Controller
 
     public function order_store(Request $request)
     {
-        // return $request;
         if ($request->payment_method == 1) {
             $order_id = '#' . uniqid() . 'D- ' . Carbon::now()->format('d-m-y');
-            Order::insert([
-                'order_id' => $order_id,
-                'customer_id' => Auth::guard('customer')->id(),
-                'total' => $request->total + $request->charge,
-                'sub_total' => $request->total - $request->discount,
-                'discount' => $request->discount,
-                'charge' => $request->charge,
-                'payment_method' => $request->payment_method,
-                'created_at' => Carbon::now(),
-            ]);
-
-            Billing::insert([
-                'order_id' => $order_id,
-                'customer_id' => Auth::guard('customer')->id(),
-                'fname' => $request->fname,
-                'lname' => $request->lname,
-                'country_id' => $request->country,
-                'city_id' => $request->city,
-                'zip' => $request->zip,
-                'company' => $request->company,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'notes' => $request->notes,
-                'created_at' => Carbon::now(),
-            ]);
-
             if ($request->shif_check == 1) {
-                // $request->validate([
-                //     ''
-                // ]);
+                $request->validate([
+                    'shif_fname'=>'required',
+                    'shif_lname'=>'required',
+                    'shif_zip'=>'required',
+                    'shif_company'=>'required',
+                    'shif_email'=>'required',
+                    'shif_phone'=>'required',
+                ]);
+
+                Order::insert([
+                    'order_id' => $order_id,
+                    'customer_id' => Auth::guard('customer')->id(),
+                    'total' => $request->total + $request->charge,
+                    'sub_total' => $request->total - $request->discount,
+                    'discount' => $request->discount,
+                    'charge' => $request->charge,
+                    'payment_method' => $request->payment_method,
+                    'created_at' => Carbon::now(),
+                ]);
+
+                Billing::insert([
+                    'order_id' => $order_id,
+                    'customer_id' => Auth::guard('customer')->id(),
+                    'fname' => $request->fname,
+                    'lname' => $request->lname,
+                    'country_id' => $request->country,
+                    'city_id' => $request->city,
+                    'zip' => $request->zip,
+                    'company' => $request->company,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'notes' => $request->notes,
+                    'created_at' => Carbon::now(),
+                ]);
+
                 Shipping::insert([
                     'order_id' => $order_id,
                     'shif_fname' => $request->shif_fname,
@@ -86,6 +91,34 @@ class CheckoutController extends Controller
                 ]);
             }
             else {
+
+                Order::insert([
+                    'order_id' => $order_id,
+                    'customer_id' => Auth::guard('customer')->id(),
+                    'total' => $request->total + $request->charge,
+                    'sub_total' => $request->total - $request->discount,
+                    'discount' => $request->discount,
+                    'charge' => $request->charge,
+                    'payment_method' => $request->payment_method,
+                    'created_at' => Carbon::now(),
+                ]);
+
+                Billing::insert([
+                    'order_id' => $order_id,
+                    'customer_id' => Auth::guard('customer')->id(),
+                    'fname' => $request->fname,
+                    'lname' => $request->lname,
+                    'country_id' => $request->country,
+                    'city_id' => $request->city,
+                    'zip' => $request->zip,
+                    'company' => $request->company,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'address' => $request->address,
+                    'notes' => $request->notes,
+                    'created_at' => Carbon::now(),
+                ]);
+
                 Shipping::insert([
                     'order_id' => $order_id,
                     'shif_fname' => $request->fname,
@@ -121,7 +154,7 @@ class CheckoutController extends Controller
 
         }
          elseif ($request->payment_method == 2) {
-            echo "SSL";
+            return redirect()->route('sslpay');
         }
          elseif ($request->payment_method == 3) {
             echo "Stripe";
