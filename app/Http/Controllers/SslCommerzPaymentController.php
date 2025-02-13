@@ -5,6 +5,19 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
+use App\Models\Sslorder;
+use App\Models\Billing;
+use Carbon\Carbon;
+use App\Models\Cart;
+use App\Models\City;
+use App\Models\Country;
+use App\Models\Inventory;
+use App\Models\Order;
+use App\Models\OrderProduct;
+use App\Models\Shipping;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceMail;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -21,12 +34,21 @@ class SslCommerzPaymentController extends Controller
 
     public function index(Request $request)
     {
+        $data = (session('data'));
+        $check_val = '';
+        if($data['shif_check'] == ''){
+            $check_val = 0;
+        }
+        else{
+            $check_val = $data['shif_check'];
+        }
+
         # Here you have to receive all the order data to initate the payment.
         # Let's say, your oder transaction informations are saving in a table called "sslorders"
         # In "sslorders" table, order unique identity is "transaction_id". "status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
 
         $post_data = array();
-        $post_data['total_amount'] = '10'; # You cant not pay less than 10
+        $post_data['total_amount'] = $data['total'] + $data['charge']; # You cant not pay less than 10
         $post_data['currency'] = "BDT";
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 
@@ -67,14 +89,34 @@ class SslCommerzPaymentController extends Controller
         $update_product = DB::table('sslorders')
             ->where('transaction_id', $post_data['tran_id'])
             ->updateOrInsert([
-                'name' => $post_data['cus_name'],
-                'email' => $post_data['cus_email'],
-                'phone' => $post_data['cus_phone'],
-                'amount' => $post_data['total_amount'],
+                'name' => $data['fname'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'amount' => $data['total'],
                 'status' => 'Pending',
-                'address' => $post_data['cus_add1'],
+                'address' => $data['address'],
                 'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency']
+                'currency' => $post_data['currency'],
+                'lname' => $data['lname'],
+                'country' => $data['country'],
+                'city' => $data['city'],
+                'zip' => $data['zip'],
+                'company' => $data['company'],
+                'notes' => $data['notes'],
+                'shif_fname' => $data['shif_fname'],
+                'shif_lname' => $data['shif_lname'],
+                'shif_country' => $data['shif_country'],
+                'shif_city' => $data['shif_city'],
+                'shif_zip' => $data['shif_zip'],
+                'shif_company' => $data['shif_company'],
+                'shif_email' => $data['shif_email'],
+                'shif_phone' => $data['shif_phone'],
+                'shif_address' => $data['shif_address'],
+                'charge' => $data['charge'],
+                'payment_method' => $data['payment_method'],
+                'discount' => $data['discount'],
+                'shif_check' => $check_val,
+                'customer_id' => $data['customer_id'],
             ]);
 
         $sslc = new SslCommerzNotification();
@@ -135,18 +177,18 @@ class SslCommerzPaymentController extends Controller
 
 
         #Before  going to initiate the payment order status need to update as Pending.
-        $update_product = DB::table('sslorders')
-            ->where('transaction_id', $post_data['tran_id'])
-            ->updateOrInsert([
-                'name' => $post_data['cus_name'],
-                'email' => $post_data['cus_email'],
-                'phone' => $post_data['cus_phone'],
-                'amount' => $post_data['total_amount'],
-                'status' => 'Pending',
-                'address' => $post_data['cus_add1'],
-                'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency']
-            ]);
+        $update_product = DB::table('orders')
+        ->where('transaction_id', $post_data['tran_id'])
+        ->updateOrInsert([
+            'name' => $post_data['cus_name'],
+            'email' => $post_data['cus_email'],
+            'phone' => $post_data['cus_phone'],
+            'amount' => $post_data['total_amount'],
+            'status' => 'Pending',
+            'address' => $post_data['cus_add1'],
+            'transaction_id' => $post_data['tran_id'],
+            'currency' => $post_data['currency']
+        ]);
 
         $sslc = new SslCommerzNotification();
         # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
@@ -161,43 +203,153 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
-        echo "Transaction is Successful";
+        // echo "Transaction is Successful";
 
-        $tran_id = $request->input('tran_id');
-        $amount = $request->input('amount');
-        $currency = $request->input('currency');
+         $tran_id = $request->input('tran_id');
+         $data =   Sslorder::where('transaction_id', $tran_id)->get();
 
-        $sslc = new SslCommerzNotification();
+        $order_id = '#'.uniqid().'-'.Carbon::now()->format('d-m-Y');
+        if($data->ship_check == 1){
+            Order::insert([
+                'order_id'=>$order_id,
+                'customer_id'=>$data->customer_id,
+                'total'=>$data->amount+$data->charge,
+                'sub_total'=>$data->total-$data->discount,
+                'discount'=>$data->discount,
+                'charge'=>$data->charge,
+                'payment_method'=>$data->payment_method,
+                'created_at'=>Carbon::now(),
+            ]);
 
-        #Check order status in order tabel against the transaction id or order id.
-        $order_details = DB::table('sslorders')
-            ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            Billing::insert([
+                'order_id' => $order_id,
+                'customer_id' => $data->customer_id,
+                'fname' => $data->name,
+                'lname' => $data->lname,
+                'country_id' => $data->country,
+                'city_id' => $data->city,
+                'zip' => $data->zip,
+                'company' => $data->company,
+                'email' => $data->email,
+                'phone' => $data->phone,
+                'address' => $data->address,
+                'notes' => $data->notes,
+                'created_at' => Carbon::now(),
+            ]);
 
-        if ($order_details->status == 'Pending') {
-            $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
-
-            if ($validation) {
-                /*
-                That means IPN did not work or IPN URL was not set in your merchant panel. Here you need to update order status
-                in order table as Processing or Complete.
-                Here you can also sent sms or email for successfull transaction to customer
-                */
-                $update_product = DB::table('sslorders')
-                    ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
-
-                echo "<br >Transaction is successfully Completed";
-            }
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            /*
-             That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
-             */
-            echo "Transaction is successfully Completed";
-        } else {
-            #That means something wrong happened. You can redirect customer to your product page.
-            echo "Invalid Transaction";
+            Shipping::insert([
+                'order_id' => $order_id,
+                'shif_fname' => $data->shif_fname,
+                'shif_lname' => $data->shif_lname,
+                'shif_country_id' => $data->shif_country,
+                'shif_city_id' => $data->shif_city,
+                'shif_zip' => $data->shif_zip,
+                'shif_company' => $data->shif_company,
+                'shif_email' => $data->shif_email,
+                'shif_phone' => $data->shif_phone,
+                'shif_address' => $data->shif_address,
+                'created_at' => Carbon::now(),
+            ]);
         }
+
+        else{
+            Order::insert([
+                'order_id'=>$order_id,
+                'customer_id'=>$data->customer_id,
+                'total'=>$data->amount+$data->charge,
+                'sub_total'=>$data->total-$data->discount,
+                'discount'=>$data->discount,
+                'charge'=>$data->charge,
+                'payment_method'=>$data->payment_method,
+                'created_at'=>Carbon::now(),
+            ]);
+
+            Billing::insert([
+                'order_id' => $order_id,
+                'customer_id' => $data->customer_id,
+                'fname' => $data->name,
+                'lname' => $data->lname,
+                'country_id' => $data->country,
+                'city_id' => $data->city,
+                'zip' => $data->zip,
+                'company' => $data->company,
+                'email' => $data->email,
+                'phone' => $data->phone,
+                'address' => $data->address,
+                'notes' => $data->notes,
+                'created_at' => Carbon::now(),
+            ]);
+
+            Shipping::insert([
+                'order_id' => $order_id,
+                'shif_fname' => $data->name,
+                'shif_lname' => $data->lname,
+                'shif_country_id' => $data->country,
+                'shif_city_id' => $data->city,
+                'shif_zip' => $data->zip,
+                'shif_company' => $data->company,
+                'shif_email' => $data->email,
+                'shif_phone' => $data->phone,
+                'shif_address' => $data->address,
+                'created_at' => Carbon::now(),
+            ]);
+        }
+
+        $carts = Cart::where('customer_id', Auth::guard('customer')->id())->get();
+        foreach($carts as $cart){
+            OrderProduct::insert([
+                'order_id'=>$order_id,
+                'customer_id' => $data->customer_id,
+                'product_id' => $cart->product_id,
+                'price' => $cart->rel_to_product->after_discount,
+                'color_id' => $cart->color_id,
+                'size_id' => $cart->size_id,
+                'quantity' => $cart->quantity,
+                'created_at' => Carbon::now(),
+            ]);
+
+            // Cart::find($cart->id)->delete();
+            Inventory::where('product_id', $cart->product_id)->where('color_id', $cart->color_id)->where('size_id', $cart->size_id)->decrement('quantity', $cart->quantity);
+        }
+
+        Mail::to($data->email)->send(new InvoiceMail($order_id));
+
+        return redirect()->route('order.success')->with('success', $order_id);
+
+        // $amount = $request->input('amount')f
+        // $currency = $request->input('currency');
+
+        // $sslc = new SslCommerzNotification();
+
+        // #Check order status in order tabel against the transaction id or order id.
+        // $order_details = DB::table('sslorders')
+        //     ->where('transaction_id', $tran_id)
+        //     ->select('transaction_id', 'status', 'currency', 'amount')->first();
+
+        // if ($order_details->status == 'Pending') {
+        //     $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
+
+        //     if ($validation) {
+        //         /*
+        //         That means IPN did not work or IPN URL was not set in your merchant panel. Here you need to update order status
+        //         in order table as Processing or Complete.
+        //         Here you can also sent sms or email for successfull transaction to customer
+        //         */
+        //         $update_product = DB::table('sslorders')
+        //             ->where('transaction_id', $tran_id)
+        //             ->update(['status' => 'Processing']);
+
+        //         echo "<br >Transaction is successfully Completed";
+        //     }
+        // } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
+        //     /*
+        //      That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
+        //      */
+        //     echo "Transaction is successfully Completed";
+        // } else {
+        //     #That means something wrong happened. You can redirect customer to your product page.
+        //     echo "Invalid Transaction";
+        // }
 
 
     }

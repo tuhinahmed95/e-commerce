@@ -154,7 +154,8 @@ class CheckoutController extends Controller
 
         }
          elseif ($request->payment_method == 2) {
-            return redirect()->route('sslpay');
+            $data = $request->all();
+            return redirect()->route('sslpay')->with('data',$data);
         }
          elseif ($request->payment_method == 3) {
             echo "Stripe";
