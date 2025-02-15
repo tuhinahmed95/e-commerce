@@ -36,12 +36,13 @@ class SslCommerzPaymentController extends Controller
     {
         $data = (session('data'));
         $check_val = '';
-        if($data['shif_check'] == ''){
+        if(empty($data['shif_check'])){
             $check_val = 0;
         }
         else{
-            $check_val = $data['shif_check'];
+            $check_val = 1;
         }
+        
 
         # Here you have to receive all the order data to initate the payment.
         # Let's say, your oder transaction informations are saving in a table called "sslorders"

@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $guarded  = ['id'];
+
     public function rel_to_cat(){
         return $this->belongsTo(Category::class,'category_id');
+    }
+
+    public function rel_to_customer(){
+        return $this->belongsTo(Customer::class,'customer_id');
     }
 }

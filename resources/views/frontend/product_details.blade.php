@@ -45,6 +45,16 @@
                             </div>
                         </div>
                     </div>
+                    @php
+                        $avg = '';
+                        if ($total_review == 0){
+                            $ave = 0;
+                        }
+                        else {
+                            $avg = round($total_star/$total_review);
+                        }
+
+                    @endphp
                     <div class="col-lg-7">
                         <div class="product-single-content">
                             <h2>{{ $product_info->product_name }}</h2>
@@ -55,12 +65,14 @@
                                 @endif
                             </div>
                             <div class="rating-product">
-                                <i class="fi flaticon-star"></i>
-                                <i class="fi flaticon-star"></i>
-                                <i class="fi flaticon-star"></i>
-                                <i class="fi flaticon-star"></i>
-                                <i class="fi flaticon-star"></i>
-                                <span>120</span>
+                                @for($i = 1; $i <=$avg; $i++)
+                                     <i class="fa fa-star"></i>
+                                @endfor
+
+                                @for($i=$avg;$i<=4; $i++)
+                                    <i class="fa fa-star-o"></i>
+                                @endfor
+                                <span>{{ $total_review }}</span>
                             </div>
                             <p>{{ $product_info->short_desc }} </p>
                             <div class="product-filter-item color">
@@ -180,165 +192,120 @@
                                         <div class="comments-section">
                                             <h3 class="comments-title">3 reviews for Stylish Pink Coat</h3>
                                             <ol class="comments">
-                                                <li class="comment even thread-even depth-1" id="comment-1">
-                                                    <div id="div-comment-1">
-                                                        <div class="comment-theme">
-                                                            <div class="comment-image"><img
-                                                                    src="assets/images/blog-details/comments-author/img-1.jpg"
-                                                                    alt></div>
-                                                        </div>
-                                                        <div class="comment-main-area">
-                                                            <div class="comment-wrapper">
-                                                                <div class="comments-meta">
-                                                                    <h4>Lily Zener</h4>
-                                                                    <span class="comments-date">December 25, 2022 at 5:30 am</span>
-                                                                    <div class="rating-product">
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="comment-area">
-                                                                    <p>Turpis nulla proin donec a ridiculus. Mi suspendisse faucibus sed lacus. Vitae risus eu nullam sed quam.
-                                                                         Eget aenean id augue pellentesque turpis magna egestas arcu sed.
-                                                                        Aliquam non faucibus massa adipiscing nibh sit. Turpis integer aliquam aliquam aliquam.
-                                                                        <a class="comment-reply-link"
-                                                                                href="#"><span>Reply...</span></a>
-                                                                    </p>
+                                                @foreach ($reviews as $review)
+                                                    <li class="comment even thread-even depth-1" id="comment-1">
+                                                        <div id="div-comment-1">
+                                                            <div class="comment-theme">
+                                                                <div class="comment-image">
+                                                                    @if ($review->rel_to_customer->photo == null)
+                                                                        <img src="#" alt="custome image">
+                                                                    @else
+                                                                        <img src="{{asset($review->rel_to_customer->photo)  }}" alt="">
+                                                                    @endif
+                                                                    <img src="assets/images/blog-details/comments-author/img-1.jpg"
+                                                                        alt>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <ul class="children">
-                                                        <li class="comment">
-                                                            <div>
-                                                                <div class="comment-theme">
-                                                                    <div class="comment-image"><img
-                                                                            src="assets/images/blog-details/comments-author/img-2.jpg"
-                                                                            alt></div>
-                                                                </div>
-                                                                <div class="comment-main-area">
-                                                                    <div class="comment-wrapper">
-                                                                        <div class="comments-meta">
-                                                                            <h4>Leslie Alexander</h4>
-                                                                            <div class="rating-product">
-                                                                                <i class="fi flaticon-star"></i>
-                                                                                <i class="fi flaticon-star"></i>
-                                                                                <i class="fi flaticon-star"></i>
-                                                                                <i class="fi flaticon-star"></i>
-                                                                                <i class="fi flaticon-star"></i>
-                                                                            </div>
-                                                                            <span class="comments-date">December 26, 2022 at 5:30 am</span>
-                                                                        </div>
-                                                                        <div class="comment-area">
-                                                                            <p>Turpis nulla proin donec a ridiculus. Mi suspendisse faucibus sed lacus. Vitae risus eu nullam sed quam.
-                                                                                Eget aenean id augue pellentesque turpis magna egestas arcu sed.
-                                                                               Aliquam non faucibus massa adipiscing nibh sit. Turpis integer aliquam aliquam aliquam.
-                                                                               <a class="comment-reply-link"
-                                                                                       href="#"><span>Reply...</span></a>
-                                                                           </p>
+                                                            <div class="comment-main-area">
+                                                                <div class="comment-wrapper">
+                                                                    <div class="comments-meta">
+                                                                        <h4>{{ $review->rel_to_customer->fname.' '.$review->rel_to_customer->lname }}</h4>
+                                                                        <span class="comments-date">{{ $review->created_at->diffforHumans() }}</span>
+                                                                        <div class="rating-product">
+                                                                            @for($i = 1; $i <= $review->star; $i++)
+                                                                                <i class="fa fa-star"></i>
+                                                                            @endfor
+                                                                            @for($i=$review->star; $i<=4; $i++)
+                                                                                <i class="fa fa-star-o "></i>
+                                                                            @endfor
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li class="comment">
-                                                    <div>
-                                                        <div class="comment-theme">
-                                                            <div class="comment-image"><img
-                                                                    src="assets/images/blog-details/comments-author/img-1.jpg"
-                                                                    alt></div>
-                                                        </div>
-                                                        <div class="comment-main-area">
-                                                            <div class="comment-wrapper">
-                                                                <div class="comments-meta">
-                                                                    <h4>Jenny Wilson</h4>
-                                                                    <div class="rating-product">
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
-                                                                        <i class="fi flaticon-star"></i>
+                                                                    <div class="comment-area">
+                                                                        <p>{{ $review->review }} </p>
                                                                     </div>
-                                                                    <span class="comments-date">December 30, 2022 at 3:12 pm</span>
-                                                                </div>
-                                                                <div class="comment-area">
-                                                                    <p>Turpis nulla proin donec a ridiculus. Mi suspendisse faucibus sed lacus. Vitae risus eu nullam sed quam.
-                                                                        Eget aenean id augue pellentesque turpis magna egestas arcu sed.
-                                                                       Aliquam non faucibus massa adipiscing nibh sit. Turpis integer aliquam aliquam aliquam.
-                                                                       <a class="comment-reply-link"
-                                                                               href="#"><span>Reply...</span></a>
-                                                                   </p>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                @endforeach
                                             </ol>
                                         </div> <!-- end comments-section -->
-                                        <div class="col col-lg-10 col-12 review-form-wrapper">
-                                            <div class="review-form">
-                                                <h4>Add a review</h4>
-                                                <form>
-                                                    <div class="give-rat-sec">
-                                                        <div class="give-rating">
-                                                            <label>
-                                                                <input type="radio" name="stars" value="1">
-                                                                <span class="icon">★</span>
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="stars" value="2">
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="stars" value="3">
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="stars" value="4">
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                            </label>
-                                                            <label>
-                                                                <input type="radio" name="stars" value="5">
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                                <span class="icon">★</span>
-                                                            </label>
+                                        @auth('customer')
+                                            @if (App\Models\OrderProduct::where('customer_id', Auth::guard('customer')->id())->where('product_id',$product_info->id)->exists())
+                                                @if (App\Models\OrderProduct::where('customer_id', Auth::guard('customer')->id())->whereNotNull('review')->first() == false )
+                                                    <div class="col col-lg-10 col-12 review-form-wrapper">
+                                                        <div class="review-form">
+                                                            <h4>Add a review</h4>
+                                                            <form action="{{ route('review.store',$product_info->id) }}" method="POST">
+                                                                @csrf
+                                                                <div class="give-rat-sec">
+                                                                    <div class="give-rating">
+                                                                        <label>
+                                                                            <input type="radio" name="stars" value="1">
+                                                                            <span class="icon">★</span>
+                                                                        </label>
+                                                                        <label>
+                                                                            <input type="radio" name="stars" value="2">
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                        </label>
+                                                                        <label>
+                                                                            <input type="radio" name="stars" value="3">
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                        </label>
+                                                                        <label>
+                                                                            <input type="radio" name="stars" value="4">
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                        </label>
+                                                                        <label>
+                                                                            <input type="radio" name="stars" value="5">
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                            <span class="icon">★</span>
+                                                                        </label>
+                                                                    @error('stars')
+                                                                        <strong class="text-danger">{{ $message }}</strong>
+                                                                    @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <textarea name="review" class="form-control"
+                                                                        placeholder="Write Comment..."></textarea>
+                                                                    @error('review')
+                                                                        <strong class="text-danger">{{ $message }}</strong>
+                                                                    @enderror
+                                                                </div>
+                                                                <div class="name-input">
+                                                                    <input name="name" type="text" class="form-control" placeholder="Name"
+                                                                        required value="{{ Auth::guard('customer')->user()->fname }}">
+                                                                </div>
+                                                                <div class="name-email">
+                                                                    <input name="email" type="email" class="form-control" placeholder="Email"
+                                                                        required value="{{ Auth::guard('customer')->user()->email }}">
+                                                                </div>
+                                                                <div class="rating-wrapper">
+                                                                    <div class="submit">
+                                                                        <button type="submit" class="theme-btn-s2">Post
+                                                                            review</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        <textarea class="form-control"
-                                                            placeholder="Write Comment..."></textarea>
-                                                    </div>
-                                                    <div class="name-input">
-                                                        <input type="text" class="form-control" placeholder="Name"
-                                                            required>
-                                                    </div>
-                                                    <div class="name-email">
-                                                        <input type="email" class="form-control" placeholder="Email"
-                                                            required>
-                                                    </div>
-                                                    <div class="rating-wrapper">
-                                                        <div class="submit">
-                                                            <button type="submit" class="theme-btn-s2">Post
-                                                                review</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                                @else
+                                                    <h3 class="alert alert-success">You Alreday Reviewed This Product</h3>
+                                                @endif
+                                            @else
+                                                <h3 class="alert alert-warning">You Did Not Purchae This Product Yet</h3>
+                                            @endif
+                                        @endauth
                                     </div> <!-- end comments-area -->
                                 </div>
                             </div>

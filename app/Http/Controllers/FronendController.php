@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Banner;
-use App\Models\Category;
-use App\Models\Inventory;
 use App\Models\Offer1;
 use App\Models\Offer2;
 use App\Models\Product;
-use App\Models\ProductGallery;
+use App\Models\Category;
+use App\Models\Inventory;
 use App\Models\Subscribe;
-use Carbon\Carbon;
+use App\Models\OrderProduct;
 use Illuminate\Http\Request;
+use App\Models\ProductGallery;
+use Illuminate\Support\Facades\Auth;
 
 class FronendController extends Controller
 {
@@ -49,6 +51,9 @@ class FronendController extends Controller
     $product_id = Product::where('slug',$slug)->first()->id;
     $product_info = Product::find($product_id);
     $product_gallery = ProductGallery::where('product_id',$product_id)->get();
+    $reviews = OrderProduct::where('product_id',$product_id)->whereNotNull('review')->get();
+    $total_review = OrderProduct::where('product_id',$product_id)->whereNotNull('review')->count();
+    $total_star = OrderProduct::where('product_id',$product_id)->whereNotNull('review')->sum('star');
     $varient_color = Inventory::where('product_id',$product_id)
     ->groupBy('color_id')
     ->selectRaw('sum(color_id) as sum ,color_id')
@@ -58,7 +63,7 @@ class FronendController extends Controller
     ->selectRaw('sum(size_id) as sum , size_id')
     ->get();
 
-    return view('frontend.product_details',compact('product_info','product_gallery','varient_color','varient_sizes'));
+    return view('frontend.product_details',compact('product_info','product_gallery','varient_color','varient_sizes','reviews','total_review','total_star'));
    }
 
    public function getSize(Request $request){
@@ -77,6 +82,19 @@ class FronendController extends Controller
         echo $str;
       }
    }
+
+   public function review_store(Request $request, $id){
+        $request->validate([
+            'review'=>'required',
+            'stars'=>'required',
+        ]);
+        OrderProduct::where('customer_id', Auth::guard('customer')->id())->where('product_id',$id)->first()->update([
+            'review'=> $request->review,
+            'star'=> $request->stars,
+            'updated_at'=> Carbon::now(),
+        ]);
+        return back()->with('review','Your Review Has Been Submited');
+    }
 
 //    public function getQuantity(Request $request){
 //     echo $request->color_id.$request->product_id.$request->size_id;

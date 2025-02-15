@@ -19,6 +19,7 @@ use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\StripePaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[FronendController::class,'welcome'])->name('index');
@@ -177,3 +178,12 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
+
+// Stripe
+Route::controller(StripePaymentController::class)->group(function(){
+    Route::get('stripe', 'stripe')->name('stripe');
+    Route::post('stripe', 'stripePost')->name('stripe.post');
+});
+
+// Reviews
+Route::post('/review/store/{id}', [FronendController::class, 'review_store'])->name('review.store');
