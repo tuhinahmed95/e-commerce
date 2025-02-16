@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+@can('category_access')
 <div class="row">
     <div class="col-10">
        <form action="{{ route('checked.delete') }}" method="POST">
@@ -63,6 +64,7 @@
        </form>
     </div>
 </div>
+@endcan
 @endsection
 
 @section('footer_script')

@@ -208,24 +208,11 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#icons" role="button" aria-expanded="false" aria-controls="icons">
+            <a class="nav-link"  href="{{ route('roll.manage') }}">
               <i class="link-icon" data-feather="smile"></i>
-              <span class="link-title">Icons</span>
+              <span class="link-title">Role Manager</span>
               <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
-            <div class="collapse" id="icons">
-              <ul class="nav sub-menu">
-                <li class="nav-item">
-                  <a href="pages/icons/feather-icons.html" class="nav-link">Feather Icons</a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/icons/flag-icons.html" class="nav-link">Flag Icons</a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/icons/mdi-icons.html" class="nav-link">Mdi Icons</a>
-                </li>
-              </ul>
-            </div>
           </li>
           <li class="nav-item nav-category">FrontEnd Section</li>
           <li class="nav-item">
