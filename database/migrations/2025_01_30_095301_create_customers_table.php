@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('zip')->nullable();
             $table->string('address')->nullable();
             $table->string('photo')->nullable();
+            $table->date('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

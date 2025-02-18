@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
+
 class CustomerMiddleware
 {
     /**
@@ -21,7 +22,7 @@ class CustomerMiddleware
         // }
         // return $next($request);
 
-        if (!Auth::guard('customer')->check()) { 
+        if (!Auth::guard('customer')->check()) {
             return redirect()->route('customer.login');
         }
         return $next($request);

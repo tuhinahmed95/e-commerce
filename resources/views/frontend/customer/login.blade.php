@@ -54,7 +54,7 @@
                                 <div class="wpo-accountInfoHeader">
                                     <a href="index.html"><img src="{{asset('frontend')}}/images/logo-2.svg" alt=""></a>
                                     <a class="wpo-accountBtn" href="{{ route('customer.register') }}">
-                                        <span class="">Create Account</span>
+                                        <span class="{{ route('customer.register') }}">Create Account</span>
                                     </a>
                                 </div>
                                 <div class="image">
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="back-home">
                                     <a class="wpo-accountBtn" href="{{ route('index') }}">
-                                        <span class="">Back To Home</span>
+                                        <span>Back To Home</span>
                                     </a>
                                 </div>
                             </div>
@@ -70,6 +70,20 @@
                                 <div class="fromTitle">
                                     <h2>Login</h2>
                                     <p>Sign into your pages account</p>
+                                </div>
+                                <div class="my-2">
+                                    @if (session('reset'))
+                                        <div class="alert alert-success">{{ session('reset') }}</div>
+                                    @endif
+                                    @if (session('verify'))
+                                        <div class="alert alert-success">{{ session('verify') }}</div>
+                                    @endif
+                                    @if (session('verify_email'))
+                                        <div class="alert alert-success">
+                                            <span>{{ session('verify_email') }}</span>
+                                            <a href="{{ route('resend.email.verify') }}">Resend Verification Link</a>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-12">
@@ -105,7 +119,7 @@
                                         <div class="check-box-wrap">
 
                                             <div class="forget-btn">
-                                                <a href="forgot.html">Forgot Password?</a>
+                                                <a href="{{ route('forget.password') }}">Forgot Password?</a>
                                             </div>
                                         </div>
                                     </div>
@@ -122,7 +136,7 @@
                                                     class="ti-github"></i></span></a>
                                     </li>
                                 </ul>
-                                <p class="subText">Don't have an account? <a href="register.html">Create free
+                                <p class="subText">Don't have an account? <a href="{{ route('customer.register') }}">Create free
                                         account</a></p>
                             </div>
                         </form>

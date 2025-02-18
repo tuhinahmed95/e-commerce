@@ -345,7 +345,7 @@
         @foreach ($products as $product)
 
         @php
-            $total_review = App\Models\OrderProduct::where('product_id',$product->id)       ->whereNotNull('review')->count();
+            $total_review = App\Models\OrderProduct::where('product_id',$product->id)->whereNotNull('review')->count();
             $total_star = App\Models\OrderProduct::where('product_id',$product->id)->whereNotNull('review')->sum('star')??0 ;
             $avg = '';
 
@@ -356,7 +356,7 @@
                 $avg = round($total_star/$total_review);
             }
         @endphp
-        
+
             <div class="product-item">
                 <div class="image">
                     <img height="250" src="{{ asset($product->preview)}}" alt="">
