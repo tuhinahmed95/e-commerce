@@ -8,11 +8,13 @@ use App\Models\Offer1;
 use App\Models\Offer2;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Inventory;
 use App\Models\Subscribe;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Models\ProductGallery;
+use App\Models\Size;
 use Illuminate\Support\Facades\Auth;
 
 class FronendController extends Controller
@@ -99,4 +101,81 @@ class FronendController extends Controller
 //    public function getQuantity(Request $request){
 //     echo $request->color_id.$request->product_id.$request->size_id;
 //    }
+
+    public function shop(Request $request){
+
+        $data =  $request->all();
+        $products = Product::where(function ($q) use ($data){
+            $min = 0;
+            $max = 0;
+            if(!empty($data['min']) && $data['min'] != '' && $data['min'] != 'undefined'){
+                $min = $data['min'];
+            }
+            else{
+                $min = 1;
+            }
+
+            if(!empty($data['max']) && $data['max'] != '' && $data['max'] != 'undefined'){
+                $max = $data['max'];
+            }
+            else{
+                $max = Product::max('price');
+            }
+
+
+            if(!empty($data['search_input']) && $data['search_input'] != '' && $data['search_input'] != 'undefined'){
+                $q->where(function($q) use ($data){
+                    $q->where('product_name', 'like', '%'.$data['search_input'].'%');
+                    $q->orwhere('long_desc', 'like', '%'.$data['search_input'].'%');
+                    $q->orwhere('addi_info', 'like', '%'.$data['search_input'].'%');
+                });
+            }
+            if(!empty($data['category_id']) && $data['category_id'] != '' && $data['category_id'] != 'undefined'){
+                $q->where(function($q) use ($data){
+                    $q->where('category_id',$data['category_id']);
+
+                });
+            }
+            if(!empty($data['color_id']) && $data['color_id'] != '' && $data['color_id'] != 'undefined'){
+                $q->whereHas('rel_to_inventory',function($q) use ($data){
+                    if(!empty($data['color_id']) && $data['color_id'] != '' && $data['color_id'] != 'undefined'){
+                        $q->whereHas('rel_color',function($q) use ($data){
+                            $q->where('colors.id',$data['color_id']);
+
+                        });
+                    }
+
+                });
+            }
+            if(!empty($data['color_id']) && $data['color_id'] != '' && $data['color_id'] != 'undefined' || !empty($data['size_id']) && $data['size_id'] != '' && $data['size_id'] != 'undefined'){
+                $q->whereHas('rel_to_inventory',function($q) use ($data){
+                    if(!empty($data['color_id']) && $data['color_id'] != '' && $data['color_id'] != 'undefined'){
+                        $q->whereHas('rel_color',function($q) use ($data){
+                            $q->where('colors.id',$data['color_id']);
+
+                        });
+                    }
+                    if(!empty($data['size_id']) && $data['size_id'] != '' && $data['size_id'] != 'undefined'){
+                        $q->whereHas('relt_size',function($q) use ($data){
+                            $q->where('sizes.id',$data['size_id']);
+
+                        });
+                    }
+
+                });
+            }
+            if(!empty($data['min']) && $data['min'] != '' && $data['min'] != 'undefined' || !empty($data['max']) && $data['max'] != '' && $data['min'] != 'undefined'){
+                    $q->whereBetween('price',[$min , $max]);
+
+            }
+        })->get();
+
+
+        $categories = Category::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+        return view('frontend.shop', compact('products','categories','colors','sizes'));
+    }
+
+
 }

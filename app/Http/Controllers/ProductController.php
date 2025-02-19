@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function product_list(){
         $categories = Category::all();
         $subcategories = Subcategory::all();
-        $products = Product::all();
+        $products = Product::paginate(5);
         return view('admin.product.product_list',[
             'categories'=>$categories,'subcategories'=>$subcategories,'products'=>$products,
         ]);

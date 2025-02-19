@@ -21,9 +21,9 @@
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
-                    @foreach ($products as $product)
+                    @foreach ($products as $sl=> $product)
                     <tr>
-                        <td>{{ $product->id }}</td>
+                        <td>{{ $products->firstitem()+$sl }}</td>
                         <td>{{ $product->product_name }}</td>
                         <td>{{ $product->price }}</td>
                         <td>{{ $product->discount }}</td>
@@ -43,9 +43,9 @@
                             <a href="{{ route('product.delete',$product->id) }}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
-
                     @endforeach
                 </table>
+                {{ $products->links() }}
             </div>
         </div>
     </div>

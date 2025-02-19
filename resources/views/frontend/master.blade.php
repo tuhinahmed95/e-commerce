@@ -105,7 +105,7 @@
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
-                            <form action="#" class="middle-box">
+                            <div  class="middle-box">
                                 <div class="category">
                                     <select name="service" class="form-control">
                                         <option disabled="disabled" selected="">All Category</option>
@@ -116,13 +116,13 @@
                                 </div>
                                 <div class="search-box">
                                     <div class="input-group">
-                                        <input type="search" class="form-control"
+                                        <input type="search" id="search_input" class="form-control"
                                             placeholder="What are you looking for?">
                                         <button class="search-btn" type="submit"> <i class="fi flaticon-search"></i>
                                         </button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="middle-right">
@@ -302,7 +302,7 @@
                                         </li>
                                         <li><a href="about.html">About</a></li>
                                         <li class="menu-item-has-children">
-                                            <a href="#">Shop</a>
+                                            <a href="{{ route('shop') }}">Shop</a>
                                         </li>
                                         <li class="menu-item-has-children">
                                             <a href="#">FAQ</a>
