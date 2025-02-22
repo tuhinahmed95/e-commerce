@@ -235,6 +235,14 @@
               <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('tag') }}">
+              <i class="link-icon" data-feather="cloud-off"></i>
+              <span class="link-title">Tags</span>
+              <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+          </li>
           <li class="nav-item nav-category">Docs</li>
           <li class="nav-item">
             <a href="https://www.nobleui.com/html/documentation/docs.html" target="_blank" class="nav-link">

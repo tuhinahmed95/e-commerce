@@ -10,6 +10,7 @@ use App\Models\Subcategory;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ProductGallery;
+use App\Models\Tag;
 
 class ProductController extends Controller
 {
@@ -26,8 +27,9 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         $subcategories = Subcategory::all();
+        $tags = Tag::all();
         return view('admin.product.product_create',[
-            'categories'=>$categories,'subcategories'=>$subcategories,'brands'=>$brands,
+            'categories'=>$categories,'subcategories'=>$subcategories,'brands'=>$brands,'tags'=>$tags,
         ]);
     }
 

@@ -22,6 +22,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\StripePaymentController;
+use App\Http\Controllers\TagController;
 use App\Http\Middleware\CustomerMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -93,6 +94,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/product/delete/{id}',[ProductController::class,'product_delete'])->name('product.delete');
     Route::post('/getSubcategory',[ProductController::class,'getsubcategory']);
     Route::post('/getStatus',[ProductController::class,'getStatus']);
+
+    //  Tags
+    Route::get('/tag', [TagController::class, 'tag'])->name('tag');
+    Route::post('/tag/store', [TagController::class, 'tag_store'])->name('tag.store');
+    Route::get('/tag/delte/{id}', [TagController::class, 'tag_delete'])->name('tag.delete');
 
     // Brand
     Route::get('/brand/create',[BrandController::class,'brand_create'])->name('brand.create');

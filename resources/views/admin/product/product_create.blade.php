@@ -76,8 +76,19 @@
 
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label for="" class="form-label">Tags</label>
-                                    <input type="text" name="tags[]" id="input-tags">
+                                    <select id="select-gear" name="tags[]" class="demo-default" multiple placeholder="Select gear...">
+                                        <option value="">Select gear...</option>
+                                        <optgroup label="Climbing">
+                                            @foreach ($tags as $tag)
+
+
+                                            <option value="{{ $tag->id }}">{{ $tag->tag_name }}</option>
+
+                                        </optgroup>
+                                        @endforeach
+
+                                      </select>
+
                                 </div>
                             </div>
 
@@ -133,16 +144,17 @@
 @section('footer_script')
     <script>
         // selectize js code
-        $("#input-tags").selectize({
-            delimiter: ",",
-            persist: false,
-            create: function (input) {
-                return {
-                    value: input,
-                    text: input,
-                };
-            },
-        });
+        $('#select-gear').selectize({ sortField: 'text' })
+        // $("#input-tags").selectize({
+        //     delimiter: ",",
+        //     persist: false,
+        //     create: function (input) {
+        //         return {
+        //             value: input,
+        //             text: input,
+        //         };
+        //     },
+        // });
     </script>
     <script>
         // ajsx url code
