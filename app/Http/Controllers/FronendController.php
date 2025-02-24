@@ -15,7 +15,9 @@ use App\Models\OrderProduct;
 use Illuminate\Http\Request;
 use App\Models\ProductGallery;
 use App\Models\Size;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class FronendController extends Controller
 {
@@ -65,6 +67,9 @@ class FronendController extends Controller
     ->selectRaw('sum(size_id) as sum , size_id')
     ->get();
 
+    // cookies set for recent view page
+    Cookie::queue('recent-view','abcd',1000);
+
     return view('frontend.product_details',compact('product_info','product_gallery','varient_color','varient_sizes','reviews','total_review','total_star'));
    }
 
@@ -105,6 +110,28 @@ class FronendController extends Controller
     public function shop(Request $request){
 
         $data =  $request->all();
+
+        $base = "created_at";
+        $type = 'DESC';
+        if(!empty($data['sort']) && $data['sort'] != '' && $data['sort'] != 'undefined'){
+           if($data['sort'] == 1){
+                $base = "created_at";
+                $type = 'ASC';
+           }
+           else if($data['sort'] == 2){
+            $base = 'price';
+            $type = 'DESC';
+           }
+           else if($data['sort'] == 3){
+            $base = 'product_name';
+            $type = 'ASC';
+           }
+           else if($data['sort'] == 4){
+            $base = 'product_name';
+            $type = 'DESC';
+           }
+        }
+
         $products = Product::where(function ($q) use ($data){
             $min = 0;
             $max = 0;
@@ -134,6 +161,19 @@ class FronendController extends Controller
                 $q->where(function($q) use ($data){
                     $q->where('category_id',$data['category_id']);
 
+                });
+            }
+            if(!empty($data['tag']) && $data['tag'] != '' && $data['tag'] != 'undefined'){
+                $q->where(function($q) use ($data){
+                    $all = '';
+                    foreach(Product::all() as $product){
+                        $explode = explode(',', $product->tags);
+                        if(in_array($data['tag'], $explode)){
+                            $all .= $product->id.',';
+                        }
+                    }
+                    $explode2 = explode(',',$all);
+                    $q->find($explode2);
                 });
             }
             if(!empty($data['color_id']) && $data['color_id'] != '' && $data['color_id'] != 'undefined'){
@@ -168,13 +208,19 @@ class FronendController extends Controller
                     $q->whereBetween('price',[$min , $max]);
 
             }
-        })->get();
+        })->orderBy($base , $type)->get();
 
 
         $categories = Category::all();
         $colors = Color::all();
         $sizes = Size::all();
-        return view('frontend.shop', compact('products','categories','colors','sizes'));
+        $tags = Tag::all();
+        return view('frontend.shop', compact('products','categories','colors','sizes','tags'));
+    }
+
+    public function recent_view(){
+        return Cookie::get('recent-view');
+        return view('frontend.recent_view');
     }
 
 

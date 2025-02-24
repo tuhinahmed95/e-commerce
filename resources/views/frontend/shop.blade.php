@@ -29,7 +29,7 @@
                                     <div class="shop-filter-search">
                                         <form>
                                             <div>
-                                                <input type="text" id="search_input2" class="form-control" placeholder="Search..">
+                                                <input type="text" id="search_input2" class="form-control" placeholder="Search.." value="{{ @$_GET['search_input'] }}">
                                                 <button class="search_btn2" type="button"><i class="ti-search"></i></button>
                                             </div>
                                         </form>
@@ -45,7 +45,7 @@
                                                 <li>
                                                     <label class="topcoat-radio-button__label">
                                                         {{ $category->category_name }} <span>({{ App\Models\Product::where('category_id',$category->id)->count() }})</span>
-                                                        <input type="radio" name="category_id" value="{{ $category->id }}">
+                                                        <input {{ $category->id == @$_GET['category_id']?'checked':'' }} class="category" type="radio" name="category_id" value="{{ $category->id }}">
                                                         <span class="topcoat-radio-button"></span>
                                                     </label>
                                                 </li>
@@ -63,15 +63,15 @@
                                                 <div class="d-flex">
                                                     <div class="col-lg-6 pe-2">
                                                         <label for="" class="form-label">Min</label>
-                                                        <input id="min" type="text" class="form-control" placeholder="Min">
+                                                        <input id="min" type="text" class="form-control" placeholder="Min" value="{{ @$_GET['min'] }}">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <label for="" class="form-label">Max</label>
-                                                        <input id="max" type="text" class="form-control" placeholder="Max">
+                                                        <input id="max" type="text" class="form-control" placeholder="Max" value="{{ @$_GET['max'] }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12 mt-4">
-                                                    <button class="form-control bg-light">Submit</button>
+                                                    <button type="button" class="form-control bg-light range">Submit</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -86,7 +86,7 @@
                                             <li>
                                                 <label class="topcoat-radio-button__label">
                                                     {{ $color->color_name }} <span>({{ App\Models\Inventory::where('color_id',$color->id)->count() }})</span>
-                                                    <input type="radio" name="color_id" value="{{$color->id  }}" >
+                                                    <input  type="radio" name="color_id" value="{{$color->id  }}" {{ $color->id == @$_GET['color_id']?'cheked':'' }}>
                                                     <span class="topcoat-radio-button"></span>
                                                 </label>
                                             </li>
@@ -102,7 +102,7 @@
                                             <li>
                                                 <label class="topcoat-radio-button__label">
                                                     {{ $size->size_name }} <span>({{(App\Models\Inventory::where('size_id',$size->id)->count())  }})</span>
-                                                    <input type="radio" name="size_id" value="{{ $size->id }}">
+                                                    <input {{ $size->id == @$_GET['size_id']?'checked':'' }} class="size" type="radio" name="size_id" value="{{ $size->id }}">
                                                     <span class="topcoat-radio-button"></span>
                                                 </label>
                                             </li>
@@ -115,15 +115,10 @@
                                 <div class="shop-filter-item tag-widget">
                                     <h2>Popular Tags</h2>
                                     <ul>
-                                        <li><a href="#">Fashion</a></li>
-                                        <li><a href="#">Shoes</a></li>
-                                        <li><a href="#">Kids</a></li>
-                                        <li><a href="#">Theme</a></li>
-                                        <li><a href="#">Stylish</a></li>
-                                        <li><a href="#">Women</a></li>
-                                        <li><a href="#">Shop</a></li>
-                                        <li><a href="#">Men</a></li>
-                                        <li><a href="#">Blog</a></li>
+                                        @foreach ($tags as $tag)
+                                            <li><button value="{{ $tag->id }}" class="btn btn-light tag {{ $tag->id == @$_GET['tag']?'text-danger':'' }}">{{ $tag->tag_name }}</button></li>
+                                        @endforeach
+
                                     </ul>
                                 </div>
                             </div>
@@ -142,10 +137,10 @@
                                     <li>
                                         <select name="sort" class="sort">
                                             <option value="">Default Sorting</option>
-                                            <option value="1">Price Low To High</option>
-                                            <option value="2">Price High To Low</option>
-                                            <option value="3">name (A-Z)</option>
-                                            <option value="4">name (Z-A)</option>
+                                            <option value="1" {{ @$_GET['sort'] == 1?'selected':'' }}>Price Low To High</option>
+                                            <option value="2" {{ @$_GET['sort'] == 2? 'selected':'' }}>Price High To Low</option>
+                                            <option value="3" {{ @$_GET['sort'] == 3? 'selected':'' }}>name (A-Z)</option>
+                                            <option value="4" {{ @$_GET['sort'] == 4? 'selected':'' }}>name (Z-A)</option>
                                         </select>
                                     </li>
                                 </ul>
@@ -191,7 +186,8 @@
         </div>
         <!-- product-area-end -->
 @endsection
-@section('footer_script')
+
+{{-- @section('footer_script')
 <script>
     $('.search-btn').click(function(){
         var search_input = $('#search_input').val();
@@ -200,7 +196,63 @@
         var size_id = $("input[type = 'radio'][name='size_id']:checked").val();
         var max = $('#max').val();
         var min = $('#min').val();
-        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id;
+        var sort = $('.sort').val();
+        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id+"&sort="+sort;
+        window.location.href = link;
+    });
+    $('.category').click(function(){
+        var search_input = $('#search_input').val();
+        var category_id = $("input[type = 'radio'][name='category_id']:checked").val();
+        var color_id = $("input[type = 'radio'][name='color_id']:checked").val();
+        var size_id = $("input[type = 'radio'][name='size_id']:checked").val();
+        var max = $('#max').val();
+        var min = $('#min').val();
+        var sort = $('.sort').val();
+        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id+"&sort="+sort;
+        window.location.href = link;
+    });
+    $('.color').click(function(){
+        var search_input = $('#search_input').val();
+        var category_id = $("input[type = 'radio'][name='category_id']:checked").val();
+        var color_id = $("input[type = 'radio'][name='color_id']:checked").val();
+        var size_id = $("input[type = 'radio'][name='size_id']:checked").val();
+        var max = $('#max').val();
+        var min = $('#min').val();
+        var sort = $('.sort').val();
+        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id+"&sort="+sort;
+        window.location.href = link;
+    });
+    $('.size').click(function(){
+        var search_input = $('#search_input').val();
+        var category_id = $("input[type = 'radio'][name='category_id']:checked").val();
+        var color_id = $("input[type = 'radio'][name='color_id']:checked").val();
+        var size_id = $("input[type = 'radio'][name='size_id']:checked").val();
+        var max = $('#max').val();
+        var min = $('#min').val();
+        var sort = $('.sort').val();
+        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id+"&sort="+sort;
+        window.location.href = link;
+    });
+    $('.sort').change(function(){
+        var search_input = $('#search_input').val();
+        var category_id = $("input[type = 'radio'][name='category_id']:checked").val();
+        var color_id = $("input[type = 'radio'][name='color_id']:checked").val();
+        var size_id = $("input[type = 'radio'][name='size_id']:checked").val();
+        var max = $('#max').val();
+        var min = $('#min').val();
+        var sort = $('.sort').val();
+        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id+"&sort="+sort;
+        window.location.href = link;
+    });
+    $('.range').click(function(){
+        var search_input = $('#search_input').val();
+        var category_id = $("input[type = 'radio'][name='category_id']:checked").val();
+        var color_id = $("input[type = 'radio'][name='color_id']:checked").val();
+        var size_id = $("input[type = 'radio'][name='size_id']:checked").val();
+        var max = $('#max').val();
+        var min = $('#min').val();
+        var sort = $('.sort').val();
+        var link = "{{ route('shop') }}"+"?search_input="+search_input+"&category_id="+category_id+"&max="+max+"&min="+min+"&color_id="+color_id+"&size_id="+size_id+"&sort="+sort;
         window.location.href = link;
     });
 
@@ -209,5 +261,11 @@
         var link = "{{ route('shop') }}"+"?search_input="+search_input2;
         window.location.href = link;
     });
+
+    $('.tag').click(function(){
+        var tag = $(this).val();
+        var link = "{{ route('shop') }}"+"?tag="+tag;
+        window.location.href = link;
+    });
 </script>
-@endsection
+@endsection --}}
