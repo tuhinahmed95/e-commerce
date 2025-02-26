@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="wpOceans">
     <link rel="shortcut icon" type="image/png" href="{{ asset('frontend') }}/images/favicon.png">
-    <title>Themart - eCommerce HTML5 Template</title>
+    <title>Themart - @yield('title')</title>
     <link href="{{ asset('frontend') }}/css/themify-icons.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('frontend') }}/css/flaticon_ecommerce.css" rel="stylesheet">
@@ -32,6 +32,22 @@
 </head>
 
 <body>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/67beb97cb959de190b14c3d7/1il0guoru';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+    <!--End of Tawk.to Script-->
+   
+
 
     <!-- start page-wrapper -->
     <div class="page-wrapper">

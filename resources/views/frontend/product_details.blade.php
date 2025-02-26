@@ -1,4 +1,7 @@
 @extends('frontend.master')
+@section('title')
+Product Details
+@endsection
 @section('content')
    <!-- start wpo-page-title -->
    <section class="wpo-page-title">
@@ -8,9 +11,7 @@
             <div class="col col-xs-12">
                 <div class="wpo-breadcumb-wrap">
                     <ol class="wpo-breadcumb-wrap">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="product.html">Product</a></li>
-                        <li>Product Single</li>
+                        {{-- {{ Breadcrumbs::render() }} --}}
                     </ol>
                 </div>
             </div>

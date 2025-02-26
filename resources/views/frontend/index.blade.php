@@ -1,4 +1,7 @@
 @extends('frontend.master')
+@section('title')
+Home
+@endsection
 @section('content')
 <!-- start of wpo-hero-section -->
 <div class="wpo-hero-slider">

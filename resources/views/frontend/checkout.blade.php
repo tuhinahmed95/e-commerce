@@ -1,5 +1,7 @@
 @extends('frontend.master')
-
+@section('title')
+Checkout
+@endsection
 @section('content')
 
  <!-- wpo-checkout-area start-->

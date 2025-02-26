@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductGallery;
 use App\Models\Size;
 use App\Models\Tag;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
@@ -68,9 +69,16 @@ class FronendController extends Controller
     ->get();
 
     // cookies set for recent view page
-    Cookie::queue('recent-view','abcd',1000);
+    $all = Cookie::get('recent-view');
+    if(!$all){
+        $all = "[]";
+    }
+    $all_info = json_decode($all,true);
+    $all_info = Arr::prepend($all_info, $product_id);
+    $recent_product_id = json_encode($all_info);
+    Cookie::queue('recent-view',$recent_product_id,1000);
 
-    return view('frontend.product_details',compact('product_info','product_gallery','varient_color','varient_sizes','reviews','total_review','total_star'));
+    return view('frontend.product_details',compact('product_info','product_gallery','varient_color','varient_sizes','reviews','total_review','total_star',));
    }
 
    public function getSize(Request $request){
@@ -219,8 +227,16 @@ class FronendController extends Controller
     }
 
     public function recent_view(){
-        return Cookie::get('recent-view');
-        return view('frontend.recent_view');
+        $recent_info =  json_decode(Cookie::get('recent-view'), true);
+        if($recent_info == null){
+            $recent_view_product = [];
+            $recent_view = array_unique($recent_info);
+        }
+        else{
+            $recent_view = array_unique($recent_info);
+        }
+        $recents = Product::find($recent_view);
+        return view('frontend.recent_view',compact('recents'));
     }
 
 
