@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('discount');
             $table->integer('charge');
             $table->integer('payment_method');
+            $table->date('order_date')->nullable();
             $table->integer('status')->default(0);
             $table->timestamps();
         });

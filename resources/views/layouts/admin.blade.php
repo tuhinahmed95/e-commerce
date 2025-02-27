@@ -468,6 +468,8 @@
   <script src="{{ asset('backend') }}/assets/js/dashboard.js"></script>
   <script src="{{ asset('backend') }}/assets/js/datepicker.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 	<!-- end custom js for this page -->
 
     @yield('footer_script')
