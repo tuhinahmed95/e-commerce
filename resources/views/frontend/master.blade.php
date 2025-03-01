@@ -46,7 +46,7 @@
     })();
 </script>
     <!--End of Tawk.to Script-->
-   
+
 
 
     <!-- start page-wrapper -->
@@ -321,7 +321,7 @@
                                             <a href="{{ route('shop') }}">Shop</a>
                                         </li>
                                         <li class="menu-item-has-children">
-                                            <a href="#">FAQ</a>
+                                            <a href="{{ route('faqs') }}">FAQ</a>
                                         </li>
                                         <li><a href="contact.html">Contact</a></li>
                                     </ul>
@@ -501,7 +501,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('footer_script')
 
-    <script>
+    {{-- <script>
         $('.search-btn').click(function(){
             var search_input = $('#search_input').val();
             var category_id = $("input[type = 'radio'][name='category_id']:checked").val();
@@ -580,7 +580,7 @@
             var link = "{{ route('shop') }}"+"?tag="+tag;
             window.location.href = link;
         });
-    </script>
+    </script> --}}
 </body>
 
 </html>

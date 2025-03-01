@@ -8,6 +8,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
@@ -32,6 +33,7 @@ Route::post('/getSize',[FronendController::class,'getSize']);
 // Route::post('/getQuantity',[FronendController::class,'getQuantity']);
 Route::get('/shop',[FronendController::class,'shop'])->name('shop');
 Route::get('/recent/view',[FronendController::class,'recent_view'])->name('recent.view');
+Route::get('/faqs',[FronendController::class,'faqs'])->name('faqs');
 
 Route::get('/dashboard', [HomeController::class,'dashboard'])->middleware(['auth','verified'])->name('dashboard');
 
@@ -44,7 +46,7 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
-
+require __DIR__.'/api.php';
 // banner
 Route::get('/banner',[BannerController::class,'banner'])->name('banner');
 Route::post('/banner/store',[BannerController::class,'banner_store'])->name('banner.store');
@@ -218,3 +220,6 @@ Route::get('/forget/password', [PassresetController::class,'forget_password'])->
 Route::post('/password/reset/request', [PassresetController::class,'password_reset_request'])->name('password.reset.request');
 Route::get('/password/reset/form/{token}', [PassresetController::class,'password_reset_form'])->name('password.reset.form');
 Route::post('/password/reset/confirm/{token}', [PassresetController::class,'password_reset_confirm'])->name('password.reset.confirm');
+
+// Faq
+Route::resource('faq', FaqController::class);
