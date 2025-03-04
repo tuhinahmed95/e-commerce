@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
 
 
 require __DIR__.'/auth.php';
-require __DIR__.'/api.php';
+// require __DIR__.'/api.php';
 // banner
 Route::get('/banner',[BannerController::class,'banner'])->name('banner');
 Route::post('/banner/store',[BannerController::class,'banner_store'])->name('banner.store');
@@ -223,3 +223,7 @@ Route::post('/password/reset/confirm/{token}', [PassresetController::class,'pass
 
 // Faq
 Route::resource('faq', FaqController::class);
+
+// Product Api
+Route::get('/product/api',[FronendController::class, 'product_api']);
+Route::get('/category/api',[FronendController::class, 'category_api']);

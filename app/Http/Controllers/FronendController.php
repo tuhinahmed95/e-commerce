@@ -20,6 +20,7 @@ use App\Models\Tag;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Http;
 
 class FronendController extends Controller
 {
@@ -244,6 +245,18 @@ class FronendController extends Controller
         $faqs = Faq::all();
         return view('frontend.faq',compact('faqs'));
     }
+
+    public function product_api(){
+        $products = file_get_contents('http://127.0.0.1:8000/api/get/product');
+        $categories = file_get_contents('http://127.0.0.1:8000/api/get/category');
+        $categories = json_decode($categories);
+        $products = json_decode($products);
+        return view('frontend.api_show', compact('products','categories'));
+    }
+
+    // public function category_api(){
+    //     $categories = file_get_contents('');
+    // }
 
 
 }

@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use laravel\Sanctum\PersonalAccessToken;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Notification;
 
 class Customer extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable ;
+    use HasApiTokens, Notifiable;
     protected $guarded = ['id'];
 
     protected $guard = 'customer';

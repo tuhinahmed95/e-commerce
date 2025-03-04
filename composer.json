@@ -11,6 +11,7 @@
         "diglactic/laravel-breadcrumbs": "^9.0",
         "intervention/image": "^3.10",
         "laravel/framework": "^11.31",
+        "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.17",
         "laravel/tinker": "^2.9",
         "laravolt/avatar": "^6.0",
