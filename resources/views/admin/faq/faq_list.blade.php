@@ -26,8 +26,8 @@
                                 <td>{{ $faq->question }}</td>
                                 <td>{{ $faq->answer }}</td>
                                 <td class="d-flex mr-1">
-                                    <a href="{{ route('faq.show',$faq->id) }}" class="btn btn-warning">View</a>
-                                    <a href="{{ route('faq.edit',$faq->id) }}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ route('faq.show',$faq->id) }}" class="btn btn-warning mr-2">View</a>
+                                    <a href="{{ route('faq.edit',$faq->id) }}" class="btn btn-primary mr-2">Edit</a>
                                     <form action="{{ route('faq.destroy',$faq->id) }}" method="POST">
                                         @method('DELETE')
                                         @csrf

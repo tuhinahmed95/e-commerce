@@ -10,6 +10,7 @@ use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FronendController;
+use App\Http\Controllers\GeneralSettingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OfferController;
@@ -227,3 +228,10 @@ Route::resource('faq', FaqController::class);
 // Product Api
 Route::get('/product/api',[FronendController::class, 'product_api']);
 Route::get('/category/api',[FronendController::class, 'category_api']);
+
+// General Setting
+Route::get('/general/setting', [GeneralSettingController::class, 'general_setting'])->name('general.logo');
+Route::post('/general/store', [GeneralSettingController::class, 'general_store'])->name('general.logo.store');
+Route::get('/general/edit/{id}', [GeneralSettingController::class, 'general_edit'])->name('general.logo.edit');
+Route::post('/general/update/{id}', [GeneralSettingController::class, 'general_update'])->name('general.logo.update');
+Route::post('/general/delete/{id}', [GeneralSettingController::class, 'general_delete'])->name('general.logo.delete');
