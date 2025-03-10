@@ -233,11 +233,11 @@
                   <a href="{{ route('general.logo') }}" class="nav-link">General Setting</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('brand.list') }}" class="nav-link">Social Media</a>
+                    <a href="{{ route('general.contact.list') }}" class="nav-link">Contact</a>
                   </li>
                 <li class="nav-item">
-                  <a href="{{ route('variation') }}" class="nav-link">Contact</a>
-                </li>
+                    <a href="{{ route('brand.list') }}" class="nav-link">Social Media</a>
+                  </li>
               </ul>
             </div>
           </li>

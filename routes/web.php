@@ -235,3 +235,8 @@ Route::post('/general/store', [GeneralSettingController::class, 'general_store']
 Route::get('/general/edit/{id}', [GeneralSettingController::class, 'general_edit'])->name('general.logo.edit');
 Route::post('/general/update/{id}', [GeneralSettingController::class, 'general_update'])->name('general.logo.update');
 Route::post('/general/delete/{id}', [GeneralSettingController::class, 'general_delete'])->name('general.logo.delete');
+Route::get('/general/contact', [GeneralSettingController::class, 'general_contact'])->name('general.contact.list');
+Route::post('/general/contact/store', [GeneralSettingController::class, 'general_contact_store'])->name('general.contact.store');
+Route::get('/general/contact/edit/{id}', [GeneralSettingController::class, 'general_contact_edit'])->name('general.contact.edit');
+Route::post('/general/contact/update/{id}', [GeneralSettingController::class, 'general_contact_update'])->name('general.contact.update');
+Route::post('/general/contact/delete/{id}', [GeneralSettingController::class, 'general_contact_delete'])->name('general.contact.delete');

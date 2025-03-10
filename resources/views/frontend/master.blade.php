@@ -116,8 +116,12 @@
                     <div class="row align-items-center">
                         <div class="col-lg-2">
                             <div class="navbar-header">
-                                <a class="navbar-brand" href="index.html"><img
-                                        src="{{ asset('frontend') }}/images/logo.svg" alt="logo"></a>
+                                @foreach ($generals as $general)
+                                    <a class="navbar-brand" href="{{ route('index') }}">
+                                        <img height="52" width="auto" src="{{ asset($general->header_logo) }}" alt="logo">
+                                    </a>
+                                @endforeach
+
                             </div>
                         </div>
                         <div class="col-lg-6 col-12">
@@ -324,7 +328,7 @@
                                             <a href="{{ route('faqs') }}">FAQ</a>
                                         </li>
                                         <li><a href="contact.html">Contact</a></li>
-                                    </ul>
+                                    </ul>`
 
                                 </div><!-- end of nav-collapse -->
                             </div>
@@ -351,9 +355,12 @@
                     <div class="row">
                         <div class="col col-lg-3 col-md-6 col-sm-12 col-12">
                             <div class="widget about-widget">
-                                <div class="logo widget-title">
-                                    <img src="{{ asset('frontend') }}/images/logo-2.svg" alt="blog">
-                                </div>
+                                @foreach ( $generals as $general)
+                                    <div class="logo widget-title">
+                                        <img width="auto" height="70" src="{{ asset($general->footer_logo) }}" alt="blog">
+                                    </div>
+                                @endforeach
+
                                 <p>Elit commodo nec urna erat morbi at hac turpis aliquam.
                                     In tristique elit nibh turpis. Lacus volutpat ipsum convallis tellus pellentesque
                                     etiam.</p>
@@ -388,12 +395,14 @@
                                     <h3>Contact Us</h3>
                                 </div>
                                 <div class="contact-ft">
+                                    @foreach ($contacts as $contact)
                                     <ul>
-                                        <li><i class="fi flaticon-mail"></i>themart@gmail.com</li>
-                                        <li><i class="fi flaticon-phone"></i>(208) 555-0112 <br>(704) 555-0127</li>
-                                        <li><i class="fi flaticon-pin"></i>4517 Washington Ave. Manchter,
-                                            Kentucky 495</li>
+                                        <li><i class="fi flaticon-mail"></i>{{ $contact->email }}</li>
+                                        <li><i class="fi flaticon-phone"></i>{{ $contact->email }}</li>
+                                        <li><i class="fi flaticon-pin"></i>{{ $contact->address }}</li>
                                     </ul>
+                                    @endforeach
+
                                 </div>
                             </div>
                         </div>

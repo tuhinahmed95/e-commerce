@@ -3,24 +3,26 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Faq;
+use App\Models\Tag;
+use App\Models\Size;
+use App\Models\Color;
 use App\Models\Banner;
 use App\Models\Offer1;
 use App\Models\Offer2;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Color;
-use App\Models\Faq;
 use App\Models\Inventory;
 use App\Models\Subscribe;
+use Illuminate\Support\Arr;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
+use App\Models\GeneralSetting;
 use App\Models\ProductGallery;
-use App\Models\Size;
-use App\Models\Tag;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cookie;
 
 class FronendController extends Controller
 {
@@ -30,7 +32,9 @@ class FronendController extends Controller
         $offer = Offer1::all();
         $offer2 = Offer2::all();
         $products = Product::latest()->take(8)->get();
-        return view('frontend.index',compact('banners','categories','offer','offer2','products'));
+        $generals = GeneralSetting::all();
+        $contacts = Contact::all();
+        return view('frontend.index',compact('banners','categories','offer','offer2','products','generals','contacts'));
     }
 
    public function subscribe_store(Request $request){

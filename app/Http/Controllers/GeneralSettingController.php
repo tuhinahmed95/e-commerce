@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
 use App\Models\GeneralSetting;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -84,5 +85,46 @@ class GeneralSettingController extends Controller
         }
         $settings->delete();
         return back();
+    }
+    public function general_contact(){
+        $contacts = Contact::all();
+        return view('admin.sidesetting.contact_list',compact('contacts'));
+    }
+    public function general_contact_store(Request $request){
+        $request->validate([
+            'email'=>'required',
+            'phone'=>'required',
+            'address'=>'required',
+        ]);
+        Contact::create([
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'address'=>$request->address,
+            'created_at'=>Carbon::now(),
+        ]);
+        return back()->with('success', 'Contact Created Successfully');
+    }
+    public function general_contact_edit($id){
+        $contact = Contact::find($id);
+        return view('admin.sidesetting.contact_edit',compact('contact'));
+    }
+    public function general_contact_update(Request $request, $id){
+        $request->validate([
+            'email'=>'nullable',
+            'phone'=>'nullable',
+            'address'=>'nullable',
+        ]);
+        $contact = Contact::find($id);
+        $contact->update([
+            'email'=>$request->email,
+            'phone'=>$request->phone,
+            'address'=>$request->address,
+        ]);
+        return redirect()->route('general.contact.list');
+    }
+    public function general_contact_delete($id){
+        $contact = Contact::find($id);
+        $contact->delete();
+        return back()->with('contact_delete', 'Contact Delete Successfully');
     }
 }
