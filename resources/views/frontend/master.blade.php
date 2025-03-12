@@ -115,14 +115,16 @@
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-2">
+
+
                             <div class="navbar-header">
-                                @foreach ($generals as $general)
+                                @foreach (App\Models\GeneralSetting::all() as $general)
                                     <a class="navbar-brand" href="{{ route('index') }}">
                                         <img height="52" width="auto" src="{{ asset($general->header_logo) }}" alt="logo">
                                     </a>
                                 @endforeach
-
                             </div>
+
                         </div>
                         <div class="col-lg-6 col-12">
                             <div  class="middle-box">
@@ -355,7 +357,12 @@
                     <div class="row">
                         <div class="col col-lg-3 col-md-6 col-sm-12 col-12">
                             <div class="widget about-widget">
-                                @foreach ( $generals as $general)
+                                {{-- @foreach ( $generals as $general)
+                                    <div class="logo widget-title">
+                                        <img width="auto" height="70" src="{{ asset($general->footer_logo) }}" alt="blog">
+                                    </div>
+                                @endforeach --}}
+                                @foreach (App\Models\GeneralSetting::all() as $general)
                                     <div class="logo widget-title">
                                         <img width="auto" height="70" src="{{ asset($general->footer_logo) }}" alt="blog">
                                     </div>
@@ -395,13 +402,14 @@
                                     <h3>Contact Us</h3>
                                 </div>
                                 <div class="contact-ft">
-                                    @foreach ($contacts as $contact)
-                                    <ul>
-                                        <li><i class="fi flaticon-mail"></i>{{ $contact->email }}</li>
-                                        <li><i class="fi flaticon-phone"></i>{{ $contact->email }}</li>
-                                        <li><i class="fi flaticon-pin"></i>{{ $contact->address }}</li>
-                                    </ul>
+                                    @foreach (App\Models\Contact::all() as $contact)
+                                        <ul>
+                                            <li><i class="fi flaticon-mail"></i>{{ $contact->email }}</li>
+                                            <li><i class="fi flaticon-phone"></i>{{ $contact->phone }}</li>
+                                            <li><i class="fi flaticon-pin"></i>{{ $contact->address }}</li>
+                                        </ul>
                                     @endforeach
+
 
                                 </div>
                             </div>
@@ -411,21 +419,30 @@
                                 <div class="widget-title">
                                     <h3>Popular</h3>
                                 </div>
-                                <ul>
-                                    <li><a href="product.html">Men</a></li>
-                                    <li><a href="product.html">Women</a></li>
-                                    <li><a href="product.html">Kids</a></li>
-                                    <li><a href="product.html">Shoe</a></li>
-                                    <li><a href="product.html">Jewelry</a></li>
-                                </ul>
+                                @foreach (App\Models\Category::all() as $category)
+                                    <ul>
+                                        <li><a href="product.html">{{ $category->category_name }}</a></li>
+                                    </ul>
+                                @endforeach
+
                             </div>
                         </div>
                         <div class="col col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12">
                             <div class="widget instagram">
                                 <div class="widget-title">
-                                    <h3>Instagram</h3>
+                                    <h3>SocialMedai</h3>
                                 </div>
-                                <ul class="d-flex">
+
+                                    <ul class="d-flex">
+                                     @foreach (App\Models\Socialmedia::all() as $social)
+                                        <li><a href="project-single.html">
+                                            {{ $social->icon_name }}
+                                            <i class="{{ $social->social_icon }}"></i>
+                                        </li>
+                                     @endforeach
+                                    </ul>
+
+                                {{-- <ul class="d-flex">
                                     <li><a href="project-single.html"><img
                                                 src="{{ asset('frontend') }}/images/instragram/1.jpg"
                                                 alt=""></a></li>
@@ -444,7 +461,7 @@
                                     <li><a href="project-single.html"><img
                                                 src="{{ asset('frontend') }}/images/instragram/1.jpg"
                                                 alt=""></a></li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                     </div>

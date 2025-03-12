@@ -236,7 +236,7 @@
                     <a href="{{ route('general.contact.list') }}" class="nav-link">Contact</a>
                   </li>
                 <li class="nav-item">
-                    <a href="{{ route('brand.list') }}" class="nav-link">Social Media</a>
+                    <a href="{{ route('general.socialmedia.list') }}" class="nav-link">Social Media</a>
                   </li>
               </ul>
             </div>

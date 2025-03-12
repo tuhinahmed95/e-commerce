@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\GeneralSetting;
+use App\Models\Socialmedia;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -126,5 +127,54 @@ class GeneralSettingController extends Controller
         $contact = Contact::find($id);
         $contact->delete();
         return back()->with('contact_delete', 'Contact Delete Successfully');
+    }
+    public function socialmedia_list(){
+        $socialmedias = Socialmedia::all();
+        return view('admin.sidesetting.socilmeia_list',compact('socialmedias'));
+    }
+    public function socialmedia_create(){
+        return view('admin.sidesetting.socialmedia_create');
+    }
+    public function socialmedia_store(Request $request){
+        $request->validate([
+            'icon_name'=>'nullable',
+            'social_icon'=>'required',
+            'link'=>'nullable',
+            'color'=>'nullable',
+
+        ]);
+        Socialmedia::create([
+            'icon_name' => $request->icon_name,
+            'social_icon' => $request->social_icon,
+            'link' => $request->icon,
+            'color' =>$request->color,
+            'created_at' => Carbon::now(),
+        ]);
+        return redirect()->route('general.socialmedia.list');
+    }
+    public function socialmedia_edit($id){
+        $social = Socialmedia::find($id);
+        return view('admin.sidesetting.social_update',compact('social'));
+    }
+    public function socialmedia_update(Request $request, $id){
+        $social = Socialmedia::find($id);
+        $request->validate([
+            'icon_name'=>'nullable',
+            'social_icon'=>'nullable',
+            'link'=>'nullable',
+            'color'=>'nullable',
+        ]);
+        $social->update([
+            'icon_name' => $request->icon_name,
+            'social_icon' => $request->social_icon,
+            'link' => $request->icon,
+            'color' =>$request->color,
+        ]);
+        return redirect()->route('general.socialmedia.list');
+    }
+    public function socialmedia_delete($id){
+        $social = Socialmedia::find($id);
+        $social->delete();
+        return back();
     }
 }

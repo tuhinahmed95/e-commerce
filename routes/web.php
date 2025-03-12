@@ -240,3 +240,9 @@ Route::post('/general/contact/store', [GeneralSettingController::class, 'general
 Route::get('/general/contact/edit/{id}', [GeneralSettingController::class, 'general_contact_edit'])->name('general.contact.edit');
 Route::post('/general/contact/update/{id}', [GeneralSettingController::class, 'general_contact_update'])->name('general.contact.update');
 Route::post('/general/contact/delete/{id}', [GeneralSettingController::class, 'general_contact_delete'])->name('general.contact.delete');
+Route::get('/general/socialmedia/list', [GeneralSettingController::class, 'socialmedia_list'])->name('general.socialmedia.list');
+Route::get('/general/socialmedia/create', [GeneralSettingController::class, 'socialmedia_create'])->name('general.socialmedia.create');
+Route::post('/general/socialmedia/store', [GeneralSettingController::class, 'socialmedia_store'])->name('general.socialmedia.store');
+Route::get('/general/socialmedia/edit/{id}', [GeneralSettingController::class, 'socialmedia_edit'])->name('general.socialmedia.edit');
+Route::post('/general/socialmedia/update/{id}', [GeneralSettingController::class, 'socialmedia_update'])->name('general.socialmedia.update');
+Route::post('/general/socialmedia/delete/{id}', [GeneralSettingController::class, 'socialmedia_delete'])->name('general.socialmedia.delete');

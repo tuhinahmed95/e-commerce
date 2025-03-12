@@ -32,9 +32,7 @@ class FronendController extends Controller
         $offer = Offer1::all();
         $offer2 = Offer2::all();
         $products = Product::latest()->take(8)->get();
-        $generals = GeneralSetting::all();
-        $contacts = Contact::all();
-        return view('frontend.index',compact('banners','categories','offer','offer2','products','generals','contacts'));
+        return view('frontend.index',compact('banners','categories','offer','offer2','products'));
     }
 
    public function subscribe_store(Request $request){
