@@ -146,7 +146,7 @@ class GeneralSettingController extends Controller
         Socialmedia::create([
             'icon_name' => $request->icon_name,
             'social_icon' => $request->social_icon,
-            'link' => $request->icon,
+            'link' => $request->link,
             'color' =>$request->color,
             'created_at' => Carbon::now(),
         ]);

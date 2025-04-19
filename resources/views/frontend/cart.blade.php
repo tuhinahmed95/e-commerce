@@ -13,7 +13,9 @@
                         </ol>
                     </div>
                 </div>
-            </div> <!-- end row -->
+            </div> <!-- end row -->@if ($mesg)
+                    <div class="alert alert-danger">{{ $mesg }}</div>
+                 @endif
         </div> <!-- end container -->
     </section>
         <!-- end page-title -->
@@ -161,7 +163,7 @@
                                     session([
                                         'discount'=>$final_discount,
                                         'total'=>$total,
-                                    ])
+                                    ]);
                                 @endphp
                                 <a class="theme-btn-s2" href="{{ route('checkout') }}">Proceed To CheckOut</a>
                             </div>

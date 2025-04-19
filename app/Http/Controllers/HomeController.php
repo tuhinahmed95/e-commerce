@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function dashboard(){
         // for orders
-       $orders = Order::where('order_date','>', Carbon::now()->subDays(26))
+       $orders = Order::where('order_date','>', Carbon::now()->subDays(30))
                 ->groupBy('order_date')->selectRaw('count(*) as total,order_date')->get();
 
        $total_order = '';
@@ -27,7 +27,7 @@ class HomeController extends Controller
        array_pop($total_order_info);
        array_pop($order_date_info);
     //    for sales
-        $sales = Order::where('order_date','>', Carbon::now()->subDays(26))
+        $sales = Order::where('order_date','>', Carbon::now()->subDays(30))
                     ->groupBy('order_date')->selectRaw('sum(total) as sum,order_date')->get();
 
         $total_sales = '';

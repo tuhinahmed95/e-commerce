@@ -56,7 +56,7 @@ Home
                     <img style="width: 70px; margin:auto" src="{{ asset('uploads/category') }}/{{ $category->icon }}" alt="">
                 </div>
                 <div class="text">
-                    <h2>
+                    <h2> 
                         @if(strlen($category->category_name) >10)
                          <a href="product.html" title="{{ $category->category_name }}">
                             {{ substr($category->category_name, 0,10).'..' }}</a>

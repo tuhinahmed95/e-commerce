@@ -16,6 +16,7 @@
                                 <th>Sl</th>
                                 <th>Social Media Name</th>
                                 <th>Icon</th>
+                                <th>Link</th>
                                 <th>Color</th>
                                 <th>Action</th>
                             </tr>
@@ -26,6 +27,7 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $socialmedia->icon_name }}</td>
                                 <td>{{ $socialmedia->social_icon }}</td>
+                                <td>{{ $socialmedia->link }}</td>
                                 <td>{{ $socialmedia->color }}</td>
                                 <td class="d-flex">
                                     <a href="{{ route('general.socialmedia.edit',$socialmedia->id) }}"><i class="fa fa-pencil btn btn-warning mr-2"></i></a>
